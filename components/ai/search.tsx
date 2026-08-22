@@ -287,8 +287,42 @@ function Input(props: ComponentProps<"textarea">) {
 
 const roleName: Record<string, string> = {
     user: "you",
-    assistant: "fumadocs",
+    assistant: "FTC Stack AI",
 };
+
+function ResponseLoadingIndicator() {
+    return (
+        <>
+            <style>{`
+                @keyframes ai-dots-bounce {
+                    0%, 100% {
+                        opacity: 0.35;
+                        transform: translateY(0);
+                    }
+                    50% {
+                        opacity: 1;
+                        transform: translateY(-3px);
+                    }
+                }
+            `}</style>
+            <div className="flex flex-col gap-2">
+                <p className="text-sm font-medium text-fd-primary">FTC Stack AI</p>
+                <div className="flex items-center gap-1 text-fd-muted-foreground">
+                    {[0, 1, 2].map((index) => (
+                        <span
+                            key={index}
+                            className="size-1.5 rounded-full bg-current"
+                            style={{
+                                animation: "ai-dots-bounce 1.2s ease-in-out infinite",
+                                animationDelay: `${index * 0.15}s`,
+                            }}
+                        />
+                    ))}
+                </div>
+            </div>
+        </>
+    );
+}
 
 function Message({
     message,
@@ -326,28 +360,29 @@ function Message({
                 <Markdown text={markdown} />
             </div>
 
-            {searchCalls.map((call) => {
-                return (
-                    <div
-                        key={call.toolCallId}
-                        className="flex flex-row gap-2 items-center mt-3 rounded-lg border bg-fd-secondary text-fd-muted-foreground text-xs p-2"
-                    >
-                        <SearchIcon className="size-4" />
-                        {call.state === "output-error" ||
-                        call.state === "output-denied" ? (
-                            <p className="text-fd-error">
-                                {call.errorText ?? "Failed to search"}
-                            </p>
-                        ) : (
-                            <p>
-                                {!call.output
-                                    ? "Searching…"
-                                    : `${call.output.length} search results`}
-                            </p>
-                        )}
-                    </div>
-                );
-            })}
+            {/*remove the thing that displays search results*/}
+            {/*{searchCalls.map((call) => {*/}
+            {/*    return (*/}
+            {/*        <div*/}
+            {/*            key={call.toolCallId}*/}
+            {/*            className="flex flex-row gap-2 items-center mt-3 rounded-lg border bg-fd-secondary text-fd-muted-foreground text-xs p-2"*/}
+            {/*        >*/}
+            {/*            <SearchIcon className="size-4" />*/}
+            {/*            {call.state === "output-error" ||*/}
+            {/*            call.state === "output-denied" ? (*/}
+            {/*                <p className="text-fd-error">*/}
+            {/*                    {call.errorText ?? "Failed to search"}*/}
+            {/*                </p>*/}
+            {/*            ) : (*/}
+            {/*                <p>*/}
+            {/*                    {!call.output*/}
+            {/*                        ? "Searching…"*/}
+            {/*                        : `${call.output.length} search results`}*/}
+            {/*                </p>*/}
+            {/*            )}*/}
+            {/*        </div>*/}
+            {/*    );*/}
+            {/*})}*/}
         </div>
     );
 }
@@ -501,6 +536,10 @@ export function AISearchPanelList({
                     {messages.map((item) => (
                         <Message key={item.id} message={item} />
                     ))}
+                    {(chat.status === "submitted" || chat.status === "streaming") &&
+                        messages.at(-1)?.role === "user" && (
+                            <ResponseLoadingIndicator />
+                        )}
                 </div>
             )}
         </List>
