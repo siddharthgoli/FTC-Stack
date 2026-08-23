@@ -94,7 +94,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
                     </div>
                 </div>
             </DocsPage>
-            <Footer className="max-xl:col-start-3 max-xl:col-end-4 xl:col-start-3 xl:col-end-6" />
+            <Footer className="row-start-4 col-start-3 col-end-5 xl:col-end-6" />
         </>
     );
 }

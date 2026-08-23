@@ -4,9 +4,11 @@ import { Footer } from "@/components/footer";
 
 export default function Layout({ children }: LayoutProps<"/">) {
     return (
-        <>
-            <HomeLayout {...baseOptions()}>{children}</HomeLayout>
+        <div className="flex min-h-dvh flex-col">
+            <div className="flex-1">
+                <HomeLayout {...baseOptions()}>{children}</HomeLayout>
+            </div>
             <Footer />
-        </>
+        </div>
     );
 }
