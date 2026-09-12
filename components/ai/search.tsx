@@ -65,7 +65,7 @@ export function AISearchPanelHeader({
             <div className="px-3 py-2 flex-1">
                 <p className="text-sm font-medium mb-2">AI Chat</p>
                 <p className="text-xs text-fd-muted-foreground">
-                    AI can be inaccurate, please verify the answers.
+                    Please do not upload any confidential information or personal data. Your use is logged for security purposes.
                 </p>
             </div>
 

@@ -25,9 +25,11 @@ import {
     actionResponse,
     blockFeedback,
     pageFeedback,
+    pageActionResponse,
     type ActionResponse,
     type BlockFeedback,
     type PageFeedback,
+    type PageActionResponse,
 } from "./schema";
 import { z } from "zod/mini";
 import { usePathname } from "fumadocs-core/framework";
@@ -45,7 +47,7 @@ const rateButtonVariants = cva(
 );
 
 const pageFeedbackResult = z.extend(pageFeedback, {
-    response: actionResponse,
+    response: pageActionResponse,
 });
 
 const blockFeedbackResult = z.extend(blockFeedback, {
@@ -64,7 +66,10 @@ const positiveReasonOptions = [
 export function Feedback({
     onSendAction,
 }: {
-    onSendAction: (feedback: PageFeedback) => Promise<ActionResponse>;
+    onSendAction: (
+        feedback: PageFeedback,
+        feedbackId?: number | string | null,
+    ) => Promise<PageActionResponse>;
 }) {
     const pathname = usePathname();
     const { previous, setPrevious } = useSubmissionStorage(pathname, (v) => {
@@ -78,49 +83,67 @@ export function Feedback({
     const [teamNumber, setTeamNumber] = useState("");
     const [message, setMessage] = useState("");
     const [submitError, setSubmitError] = useState<string | null>(null);
+    const [feedbackId, setFeedbackId] = useState<number | string | null>(null);
     const [isPending, startTransition] = useTransition();
 
-    function submit(e?: SyntheticEvent) {
-        if (opinion == null) return;
+    function createFeedback(
+        nextOpinion: "good" | "bad",
+    ): PageFeedback {
+        const normalizedTeamNumber =
+            teamNumber.trim() === ""
+                ? null
+                : Number.isFinite(Number(teamNumber))
+                  ? Number(teamNumber)
+                  : null;
 
+        return {
+            url: location.href,
+            opinion: nextOpinion,
+            solved: nextOpinion === "good" && reasons.includes("solved"),
+            learned: nextOpinion === "good" && reasons.includes("learned"),
+            improved: nextOpinion === "good" && reasons.includes("improved"),
+            teamNumber: normalizedTeamNumber,
+            message,
+        };
+    }
+
+    function saveFeedback(feedback: PageFeedback) {
         startTransition(async () => {
-            const normalizedTeamNumber =
-                teamNumber.trim() === ""
-                    ? null
-                    : Number.isFinite(Number(teamNumber))
-                      ? Number(teamNumber)
-                      : null;
-
-            const feedback: PageFeedback = {
-                url: location.href,
-                opinion,
-                solved: reasons.includes("solved"),
-                learned: reasons.includes("learned"),
-                improved: reasons.includes("improved"),
-                teamNumber: normalizedTeamNumber,
-                message,
-            };
-
             const response = await onSendAction(feedback);
             if (!response.success) {
-                setSubmitError(
-                    "We couldn't save your feedback. Please try again.",
-                );
+                setSubmitError(response.error ?? "We couldn't save your feedback.");
+                return;
+            }
+
+            setSubmitError(null);
+            setFeedbackId(response.feedbackId);
+        });
+    }
+
+    function submit(e?: SyntheticEvent) {
+        if (opinion == null || feedbackId == null) return;
+
+        e?.preventDefault();
+        startTransition(async () => {
+            const response = await onSendAction(
+                createFeedback(opinion),
+                feedbackId,
+            );
+            if (!response.success) {
+                setSubmitError(response.error ?? "We couldn't save your feedback.");
                 return;
             }
 
             setSubmitError(null);
             setPrevious({
                 response,
-                ...feedback,
+                ...createFeedback(opinion),
             });
             setMessage("");
             setTeamNumber("");
             setReasons([]);
             setOpinion(null);
         });
-
-        e?.preventDefault();
     }
 
     const activeOpinion = previous?.opinion ?? opinion;
@@ -131,6 +154,7 @@ export function Feedback({
             onOpenChange={(v) => {
                 if (!v) {
                     setOpinion(null);
+                    setFeedbackId(null);
                     setReasons([]);
                     setTeamNumber("");
                     setMessage("");
@@ -146,7 +170,7 @@ export function Feedback({
                 <div className="grid grid-cols-2 gap-2">
                     <button
                         type="button"
-                        disabled={previous !== null}
+                        disabled={previous !== null || isPending}
                         aria-label="Helpful"
                         className={cn(
                             rateButtonVariants({
@@ -155,19 +179,26 @@ export function Feedback({
                             "h-10 w-full",
                         )}
                         onClick={() => {
-                            setOpinion((current) =>
-                                current === "good" ? null : "good",
-                            );
                             if (opinion === "good") {
+                                setOpinion(null);
+                                setFeedbackId(null);
                                 setReasons([]);
+                                setTeamNumber("");
+                                setMessage("");
+                                setSubmitError(null);
+                                return;
                             }
+
+                            const nextOpinion = "good" as const;
+                            setOpinion(nextOpinion);
+                            saveFeedback(createFeedback(nextOpinion));
                         }}
                     >
                         <ThumbsUp className="size-4" />
                     </button>
                     <button
                         type="button"
-                        disabled={previous !== null}
+                        disabled={previous !== null || isPending}
                         aria-label="Not helpful"
                         className={cn(
                             rateButtonVariants({
@@ -176,10 +207,20 @@ export function Feedback({
                             "h-10 w-full",
                         )}
                         onClick={() => {
-                            setOpinion((current) =>
-                                current === "bad" ? null : "bad",
-                            );
+                            if (opinion === "bad") {
+                                setOpinion(null);
+                                setFeedbackId(null);
+                                setReasons([]);
+                                setTeamNumber("");
+                                setMessage("");
+                                setSubmitError(null);
+                                return;
+                            }
+
+                            const nextOpinion = "bad" as const;
+                            setOpinion(nextOpinion);
                             setReasons([]);
+                            saveFeedback(createFeedback(nextOpinion));
                         }}
                     >
                         <ThumbsDown className="size-4" />
@@ -199,6 +240,7 @@ export function Feedback({
                             )}
                             onClick={() => {
                                 setOpinion(previous.opinion);
+                                setFeedbackId(previous.response.feedbackId);
                                 setPrevious(null);
                                 setSubmitError(null);
                             }}

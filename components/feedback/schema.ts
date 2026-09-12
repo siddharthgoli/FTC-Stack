@@ -21,10 +21,17 @@ export const pageFeedback = z.object({
     message: z.string(),
 });
 
+export const pageActionResponse = z.object({
+    success: z.boolean(),
+    feedbackId: z.union([z.number(), z.string(), z.null()]),
+    error: z.union([z.string(), z.null()]),
+});
+
 export const actionResponse = z.object({
     success: z.boolean(),
 });
 
 export type BlockFeedback = z.infer<typeof blockFeedback>;
 export type PageFeedback = z.infer<typeof pageFeedback>;
+export type PageActionResponse = z.infer<typeof pageActionResponse>;
 export type ActionResponse = z.infer<typeof actionResponse>;

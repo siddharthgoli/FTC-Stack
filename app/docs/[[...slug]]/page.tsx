@@ -18,7 +18,10 @@ import { gitConfig } from "@/app/layout.shared";
 import { createClient } from "@/utils/supabase/server";
 import { Footer } from "@/components/footer";
 
-async function submitPageFeedback(feedback: PageFeedback) {
+async function submitPageFeedback(
+    feedback: PageFeedback,
+    feedbackId?: number | string | null,
+) {
     "use server";
 
     const supabase = await createClient();
@@ -30,7 +33,7 @@ async function submitPageFeedback(feedback: PageFeedback) {
         }
     })();
 
-    const { error } = await supabase.from("feedback").insert({
+    const values = {
         resource_path: resourcePath,
         opinion: feedback.opinion === "good",
         solved: feedback.solved,
@@ -38,14 +41,41 @@ async function submitPageFeedback(feedback: PageFeedback) {
         improved: feedback.improved,
         team_number: feedback.teamNumber,
         message: feedback.message,
-    });
+    };
 
-    if (error) {
-        console.error("Failed to save feedback", error);
-        return { success: false };
+    const result =
+        feedbackId == null
+            ? await supabase
+                  .from("feedback")
+                  .insert(values)
+                  .select("id")
+                  .single()
+            : await supabase
+                  .from("feedback")
+                  .update(values)
+                  .eq("id", feedbackId)
+                  .select("id")
+                  .single();
+
+    if (result.error) {
+        console.error("Failed to save feedback", result.error);
+        return {
+            success: false,
+            feedbackId: null,
+            error: result.error.message,
+        };
     }
 
-    return { success: true };
+    if (result.data?.id == null) {
+        console.error("Feedback was saved without a returned row ID");
+        return {
+            success: false,
+            feedbackId: null,
+            error: "Feedback was saved without a returned row ID.",
+        };
+    }
+
+    return { success: true, feedbackId: result.data.id, error: null };
 }
 
 export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
