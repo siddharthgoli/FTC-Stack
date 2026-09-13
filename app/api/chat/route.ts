@@ -7,6 +7,7 @@ import {
     tool,
     toUIMessageStream,
 } from "ai";
+import { createHash } from "node:crypto";
 import { z } from "zod";
 import { source } from "@/lib/source";
 import { Document, type DocumentData } from "flexsearch";
@@ -18,19 +19,55 @@ interface CustomDocument extends DocumentData {
     description: string;
     content: string;
 }
-const searchServer = createSearchServer();
 
-// Declare a global or module-scoped variable to hold the initialized server
-let globalSearchServer: Promise<Document<CustomDocument>> | null = null;
+type SearchIndexState = {
+    search: Document<CustomDocument>;
+    fingerprint: string;
+    checkedAt: number;
+};
 
-function getSearchServer() {
-    if (!globalSearchServer) {
-        globalSearchServer = createSearchServer();
+const refreshInterval = Number.parseInt(
+    process.env.SEARCH_INDEX_REFRESH_INTERVAL_MS ?? "300000",
+    10,
+);
+const SEARCH_INDEX_REFRESH_INTERVAL_MS =
+    Number.isFinite(refreshInterval) && refreshInterval > 0
+        ? refreshInterval
+        : 300000;
+
+let searchIndex: SearchIndexState | null = null;
+let refreshInFlight: Promise<Document<CustomDocument>> | null = null;
+
+async function getSearchServer() {
+    const now = Date.now();
+    if (
+        searchIndex &&
+        now - searchIndex.checkedAt < SEARCH_INDEX_REFRESH_INTERVAL_MS
+    ) {
+        return searchIndex.search;
     }
-    return globalSearchServer;
+
+    // Share one refresh across concurrent requests.
+    if (!refreshInFlight) {
+        refreshInFlight = refreshSearchIndex().finally(() => {
+            refreshInFlight = null;
+        });
+    }
+
+    return refreshInFlight;
 }
 
-async function createSearchServer() {
+async function refreshSearchIndex() {
+    const docs = await getSearchDocuments();
+    const fingerprint = createHash("sha256")
+        .update(JSON.stringify(docs))
+        .digest("hex");
+
+    if (searchIndex?.fingerprint === fingerprint) {
+        searchIndex.checkedAt = Date.now();
+        return searchIndex.search;
+    }
+
     const search = new Document<CustomDocument>({
         document: {
             id: "url",
@@ -39,6 +76,20 @@ async function createSearchServer() {
         },
     });
 
+    for (const doc of docs) {
+        if (doc) search.add(doc);
+    }
+
+    searchIndex = {
+        search,
+        fingerprint,
+        checkedAt: Date.now(),
+    };
+
+    return search;
+}
+
+async function getSearchDocuments() {
     const docs = await chunkedAll(
         source.getPages().map(async (page) => {
             if (!("getText" in page.data)) return null;
@@ -52,11 +103,9 @@ async function createSearchServer() {
         }),
     );
 
-    for (const doc of docs) {
-        if (doc) search.add(doc);
-    }
-
-    return search;
+    return docs
+        .filter((doc): doc is CustomDocument => doc !== null)
+        .sort((a, b) => a.url.localeCompare(b.url));
 }
 
 async function chunkedAll<O>(promises: Promise<O>[]): Promise<O[]> {
@@ -81,6 +130,7 @@ const systemPrompt = [
     "The `search` tool returns raw JSON results from documentation. Use those results to ground your answer and cite sources as markdown links using the document `url` field when available.",
     "If you cannot find the answer in search results, say you do not know and suggest a better search query. Refrain from using links sourced from the references page. Try to respond using information from search results.",
     "Do not directly quote the docs or any content returned from the `search` tool.",
+    "Do not say things such as \"Based on the FTC Stack documentation,\" just state the information you need to state",
 ].join("\n");
 
 export async function POST(req: Request, ctx: RouteContext<"/api/chat">) {

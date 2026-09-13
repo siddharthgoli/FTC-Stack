@@ -1,5 +1,5 @@
 {
-    "pages": ["index", "visionportal", "apriltags", "opencv", "limelight"],
+    "pages": ["index", "cameras", "visionportal", "apriltags", "opencv", "limelight"],
     "root": false,
     "title": "Vision",
     "description": "FTC computer vision fundamentals"

@@ -1,0 +1,173 @@
+---
+title: Localization
+description: Learn how FTC robots estimate their position and orientation on the field.
+---
+
+For a robot to autonomously move around the field accurately, it needs to know where it is.
+
+A human driver can look at the field and understand the robot's location. An autonomous program does not have that ability. Instead, the robot uses sensors to **estimate its position**.
+
+This process is called **localization**.
+
+## What is Localization?
+
+Localization is the process of determining where the robot is on the field.
+
+A robot's position is represented using three values:
+
+* **X position**
+* **Y position**
+* **Heading**
+
+Together, these values are called the robot's **pose**.
+
+```text
+Pose = (X, Y, Heading)
+```
+
+For example:
+
+```text
+X = 24 in
+Y = 36 in
+Heading = 90°
+```
+
+This tells the robot that it is 24 inches along the X-axis, 36 inches along the Y-axis, and facing 90 degrees.
+
+## Why Localization Matters
+
+An autonomous program might tell the robot:
+
+```text
+Drive to the scoring area
+Turn toward the goal
+Score
+```
+
+But the robot needs to know where it currently is before it can determine how to get there.
+
+Without localization, the robot is essentially moving **blind**.
+
+Even if the robot is commanded to drive exactly 24 inches, the result may not be exactly 24 inches because of:
+
+* Wheel slip
+* Uneven surfaces
+* Battery voltage changes
+* Mechanical inconsistencies
+* Collisions
+
+These errors accumulate throughout an autonomous routine.
+
+For example, if the robot consistently turns slightly too far, its estimated path can gradually diverge from its intended path.
+
+Accurate localization allows the robot to continuously estimate its pose and use that information to make corrections.
+
+## How Does Localization Work?
+
+A robot cannot directly measure its position on the field.
+
+Instead, it measures **movement** using sensors and uses those measurements to estimate its new position.
+
+For example, if a robot knows:
+
+```text
+Previous pose:
+(24, 36, 90°)
+
+Movement:
++10 inches forward
++5 inches sideways
++5° rotation
+```
+
+it can calculate a new estimated pose.
+
+```text
+New pose:
+(19, 46, 95°)
+```
+
+The exact calculation depends on the localization system being used.
+
+Different sensors provide different measurements of the robot's movement.
+
+Common localization sensors include:
+
+* Drive motor encoders
+* Dead wheel encoders
+* IMUs
+* Cameras
+* AprilTags
+
+These measurements can be combined to produce an estimate of the robot's pose.
+
+## Localization Error
+
+Localization is an **estimate**, not a perfect measurement.
+
+Every sensor introduces some amount of error.
+
+For example, encoder-based localization can accumulate error because of:
+
+* Wheel slip
+* Incorrect wheel diameter measurements
+* Encoder inaccuracies
+* Mechanical flex
+* Incorrect calibration
+
+This means the robot's estimated pose can gradually drift away from its actual position.
+
+A good localization system minimizes this error and, when possible, uses multiple sensors to correct it.
+
+## Localization vs. Position
+
+It is common to use "position" and "localization" interchangeably, but they are not exactly the same.
+
+**Position** describes where the robot is.
+
+**Localization** is the process used to estimate that position.
+
+Think of it as:
+
+```text
+Sensors
+   ↓
+Measurements
+   ↓
+Localization
+   ↓
+Estimated Pose
+```
+
+The estimated pose can then be used by other parts of the autonomous system.
+
+## Localization and Autonomous
+
+Localization is one of the foundations of advanced autonomous systems.
+
+A path-following system needs to know where the robot is so that it can determine whether the robot is following the desired path.
+
+```text
+Sensors
+   ↓
+Localization
+   ↓
+Current Pose
+   ↓
+Path Following
+   ↓
+Motor Commands
+```
+
+For example, path-following libraries such as Road Runner and Pedro Pathing use a localization system to determine the robot's current pose while it moves.
+
+Accurate localization therefore directly affects how accurately the robot can follow paths.
+
+## What's Next?
+
+There are several ways an FTC robot can determine its pose.
+
+The most common approaches use **drive encoders, dead wheels, and IMUs**, while more advanced systems can incorporate **vision** and other sensors.
+
+Continue to **Ways to Localize** to learn how these systems work and how they compare.

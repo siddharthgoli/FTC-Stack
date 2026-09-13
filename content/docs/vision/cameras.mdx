@@ -1,0 +1,424 @@
+---
+title: Cameras
+description: Explore cameras and vision hardware that can be used on FTC robots.
+---
+
+Cameras allow an FTC robot to see its environment.
+
+FTC supports **USB Video Class (UVC) webcams** for computer vision. In theory, any UVC-compatible camera can work with the FTC SDK, although some cameras have better support and built-in calibration than others.
+
+There are also dedicated vision devices such as the **Limelight 3A**, which perform vision processing on their own hardware instead of using FTC's VisionPortal.
+
+The best camera depends on what your robot needs to see.
+
+## Logitech C270
+
+The **Logitech C270** is one of the most common cameras in FTC.
+
+FIRST describes it as the "workhorse webcam" for FTC because it is inexpensive, reliable, and widely available. It has a 60° field of view and can capture up to 720p at 30 FPS.
+
+### Advantages
+
+* Very inexpensive
+* Widely available
+* Reliable
+* Supported directly by VisionPortal
+* Built-in FTC calibration at 640 × 480
+
+### Disadvantages
+
+* Lower image quality than more expensive webcams
+* Fixed focus
+* Relatively narrow field of view
+* Only 30 FPS at 720p
+
+### Best for
+
+The C270 is a good choice for:
+
+* AprilTag detection
+* Basic color detection
+* Simple object detection
+* Beginner vision systems
+
+For teams that simply need a reliable webcam without spending much money, the C270 is difficult to beat.
+
+---
+
+## Logitech C310
+
+The **Logitech C310** is another inexpensive webcam supported by FTC.
+
+It has a 60° field of view and supports up to 720p at 30 FPS. Compared with the C270, the C310 provides somewhat better color correction and dynamic range.
+
+### Advantages
+
+* Affordable
+* Reliable
+* 720p at 30 FPS
+* Better color performance than the C270
+* Built-in calibration at 640 × 480 and 640 × 360
+
+### Disadvantages
+
+* Fixed focus
+* Limited resolution
+* Not a major upgrade over the C270
+
+### Best for
+
+The C310 is useful for:
+
+* Color detection
+* AprilTags
+* Basic object detection
+* Teams that already have one
+
+If the C310 and C920 are similarly priced, FIRST recommends choosing the C920 because it is a significant upgrade.
+
+---
+
+## Logitech C920
+
+The **Logitech C920** is one of the most popular higher-quality webcams used in FTC.
+
+It has a 78° field of view and can capture 1080p video at 30 FPS. Unlike the C270 and C310, it also has autofocus and a 1/4-inch threaded mounting point.
+
+### Advantages
+
+* 1080p at 30 FPS
+* Wider field of view
+* Autofocus
+* Good image quality
+* Multiple mounting options
+* Extensive FTC calibration support
+
+The FTC SDK includes built-in calibration for several C920 resolutions, including:
+
+```text
+640 × 480
+640 × 360
+800 × 448
+800 × 600
+864 × 480
+1920 × 1080
+```
+
+### Disadvantages
+
+* More expensive than the C270
+* Autofocus can be slow
+* Higher USB power consumption
+* More computationally expensive at higher resolutions
+
+### Best for
+
+The C920 is a strong general-purpose choice for:
+
+* AprilTag detection
+* Localization
+* Object detection
+* Color detection
+* Long-range vision
+
+For many teams, the C920 provides a good balance between image quality, price, and compatibility.
+
+---
+
+## Microsoft LifeCam HD-3000
+
+The **Microsoft LifeCam HD-3000** is an older budget webcam that has been used in FIRST robotics for many years.
+
+The FTC SDK specifically supports versions 1 and 2 of the camera. It has a 68.5° field of view and supports up to 720p at 30 FPS.
+
+### Advantages
+
+* Inexpensive
+* Widely used in robotics
+* 68.5° field of view
+* 720p at 30 FPS
+* Built-in calibration at 640 × 480
+
+### Disadvantages
+
+* Older hardware
+* Limited image quality
+* Limited calibration support
+
+### Best for
+
+The LifeCam HD-3000 can be useful if a team already has one available.
+
+There is generally little reason to specifically purchase one over a C270 or C920 today.
+
+---
+
+# Global Shutter Cameras
+
+Most webcams use a **rolling shutter**.
+
+With a rolling shutter, different rows of the image sensor are captured at slightly different times.
+
+```text
+Rolling Shutter
+
+Row 1     ── captured
+Row 2        ── captured
+Row 3           ── captured
+Row 4              ── captured
+```
+
+When the camera or object is moving quickly, this can cause distortion.
+
+A **global shutter** captures the entire image at essentially the same time.
+
+```text
+Global Shutter
+
+Row 1 ──┐
+Row 2 ──┤
+Row 3 ──┤ captured together
+Row 4 ──┘
+```
+
+This makes global shutter cameras particularly useful for fast-moving FTC robots.
+
+---
+
+## Arducam OV9281 Global Shutter
+
+The **Arducam OV9281 Global Shutter 120 FPS** is a monochrome camera designed for high-speed vision.
+
+It can reach over 100 FPS in MJPEG mode at full resolution and uses a global shutter, which significantly reduces motion blur.
+
+### Advantages
+
+* Global shutter
+* Very high frame rate
+* Low motion blur
+* Good low-light performance
+* Low-distortion lens
+* Useful for fast object tracking
+
+### Disadvantages
+
+* Monochrome
+* No built-in FTC camera calibration
+* More complicated setup
+* Not ideal for applications requiring color
+
+Supported resolutions include:
+
+```text
+MJPEG:
+320 × 240
+640 × 480
+800 × 600
+1280 × 720
+1280 × 800
+
+YUY2:
+1280 × 720
+1280 × 800
+```
+
+The FTC documentation notes that the OV9281 required SDK/EasyOpenCV changes for high-speed operation and is not guaranteed to work correctly with SDK versions before 9.0.
+
+### Best for
+
+* Fast object tracking
+* Motion detection
+* High-speed vision
+* Applications where motion blur is a problem
+
+It is less suitable when the robot needs reliable color information.
+
+---
+
+## Kayeton Global Shutter Cameras
+
+**Kayeton** produces several global shutter USB cameras that can be used with FTC.
+
+The FTC documentation identifies Kayeton global shutter cameras as tested examples of UVC global shutter cameras. The listed configuration has approximately a 70° field of view and can reach around 120 FPS at 720p in MJPEG.
+
+### Advantages
+
+* Global shutter
+* High frame rate
+* Reduced motion distortion
+* Available in different configurations
+
+### Disadvantages
+
+* No built-in FTC calibration
+* Model specifications vary
+* Requires more setup than common Logitech webcams
+
+### Best for
+
+* Fast-moving robots
+* Motion tracking
+* Custom vision systems
+* Teams comfortable calibrating their own cameras
+
+---
+
+## ELP Global Shutter Cameras
+
+**ELP** also produces global shutter USB cameras that have been tested with FTC.
+
+The FTC documentation lists an ELP global shutter camera with approximately a 70° field of view and up to 90 FPS at 1920 × 1200 in MJPEG.
+
+### Advantages
+
+* Global shutter
+* High frame rate
+* Higher resolution than some global shutter alternatives
+* Reduced motion distortion
+
+### Disadvantages
+
+* No built-in FTC calibration
+* Model specifications vary
+* Requires additional calibration for accurate pose estimation
+
+### Best for
+
+* High-speed vision
+* Object tracking
+* Custom computer vision
+* Applications where rolling-shutter distortion is a problem
+
+---
+
+# Other UVC Webcams
+
+The cameras above are **not the only cameras that work with FTC**.
+
+The FTC SDK supports UVC-compatible webcams in general. Many modern webcams are UVC compatible even if they do not explicitly advertise it.
+
+However, there is an important difference between:
+
+```text
+Works with FTC
+```
+
+and:
+
+```text
+Has FTC calibration data
+```
+
+A UVC camera may work perfectly for tasks such as:
+
+* Color detection
+* Object detection
+* Image processing
+
+without having FTC calibration data.
+
+However, accurate **AprilTag pose estimation** requires appropriate camera calibration.
+
+If your camera is not calibrated for the resolution you are using, you may need to create your own calibration file.
+
+---
+
+# Limelight 3A
+
+The **Limelight 3A** is fundamentally different from a normal USB webcam.
+
+Instead of sending raw camera frames to the Robot Controller for processing, the Limelight contains its own processor and performs vision processing on the device.
+
+```text
+Normal Webcam:
+
+Camera
+   ↓
+Robot Controller
+   ↓
+VisionPortal
+   ↓
+Vision Processor
+   ↓
+Result
+
+
+Limelight 3A:
+
+Camera
+   ↓
+Limelight
+   ↓
+Onboard Processing
+   ↓
+Result
+```
+
+This can significantly reduce the processing work performed by the Robot Controller.
+
+The Limelight can provide information such as:
+
+* AprilTag detections
+* Target position
+* Target orientation
+* Robot pose
+* Vision pipeline results
+
+### Advantages
+
+* Dedicated vision processor
+* AprilTag processing
+* Low load on Robot Controller
+* Web-based configuration
+* Advanced vision pipelines
+* Designed specifically for robotics
+
+### Disadvantages
+
+* More expensive than a basic webcam
+* Separate software and API
+* Not compatible with VisionPortal
+* Consumes power continuously when connected
+
+The FTC documentation specifically notes that the Limelight 3A is **not a VisionPortal device**. It can be used alongside a VisionPortal webcam, but it cannot be treated as a switchable VisionPortal camera.
+
+### Best for
+
+* AprilTag localization
+* High-performance vision
+* Teams that want onboard processing
+* Advanced autonomous systems
+
+---
+
+# Phone Cameras
+
+FTC also supports the camera built into an Android phone when the phone is being used as the Robot Controller.
+
+This does not require an external webcam.
+
+```text
+Phone Camera
+     ↓
+VisionPortal
+     ↓
+Vision Processor
+```
+
+The built-in phone camera can be used with VisionPortal for tasks such as AprilTags and color processing.
+
+However, Control Hubs do not have a built-in camera, so Control Hub robots normally use an external UVC webcam or a dedicated vision device.
+
+---
+
+# Camera Comparison
+
+| Camera                     | Shutter | Resolution / FPS | Color  | Calibration | Best For               |
+| -------------------------- | ------- | ---------------- | ------ | ----------- | ---------------------- |
+| **Logitech C270**          | Rolling | 720p @ 30 FPS    | ✓      | Built-in    | Budget vision          |
+| **Logitech C310**          | Rolling | 720p @ 30 FPS    | ✓      | Built-in    | Budget vision          |
+| **Logitech C920**          | Rolling | 1080p @ 30 FPS   | ✓      | Built-in    | General-purpose vision |
+| **LifeCam HD-3000**        | Rolling | 720p @ 30 FPS    | ✓      | Built-in    | Existing hardware      |
+| **Arducam OV9281**         | Global  | Up to 120 FPS    | ✗      | Manual      | High-speed vision      |
+| **Kayeton Global Shutter** | Global  | Up to 120 FPS    | Varies | Manual      | High-speed vision      |
+| **ELP Global Shutter**     | Global  | Up to 9          |        |             |                        |

@@ -1,5 +1,5 @@
 {
-    "pages": ["index", "teleop", "auto", "code-structure", "control-flow"],
+    "pages": ["dashboards", "teleop", "auto", "code-structure", "control-flow"],
     "root": false,
     "title": "Programming",
     "description": "Learn to program a basic FTC robot"

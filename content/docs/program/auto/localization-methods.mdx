@@ -1,0 +1,408 @@
+---
+title: Localization Methods
+description: Explore ways FTC robots estimate their position on the field.
+---
+
+There are several ways an FTC robot can determine its position on the field.
+
+Most localization systems use some combination of **drive encoders, odometry wheels, IMUs, and vision**. FTC also has dedicated hardware that simplifies the process, such as the **goBILDA Pinpoint** and **REV Robotics Expansion Hub / Control Hub encoder interfaces and the OctoQuad**.
+
+Each method has different advantages, limitations, and levels of complexity.
+
+## Drive Encoder Localization
+
+The simplest approach is to use the encoders built into the drivetrain motors.
+
+Since an encoder measures how far a motor has rotated, the robot can use the wheel's circumference and encoder measurements to estimate how far each wheel has traveled.
+
+```text
+Encoder ticks
+     ↓
+Wheel rotation
+     ↓
+Distance traveled
+     ↓
+Robot movement
+     ↓
+Estimated pose
+```
+
+For example, a robot can use the difference between its left and right wheel movements to estimate how far it has driven and how much it has turned.
+
+### Advantages
+
+* Requires no additional hardware
+* Easy to set up
+* Works well for simple autonomous routines
+* Encoders are already built into many FTC motors
+
+### Disadvantages
+
+Drive encoders measure the movement of the **drive wheels**, so their measurements can be affected by wheel slip.
+
+This can become especially noticeable when:
+
+* Strafing
+* Turning
+* Accelerating quickly
+* Driving over inconsistent surfaces
+
+Because errors accumulate over time, drive encoder localization is generally less reliable for highly precise autonomous routines.
+
+---
+
+## Dead Wheel Odometry
+
+**Dead wheel odometry** uses dedicated unpowered wheels to measure the robot's movement.
+
+Unlike drivetrain wheels, dead wheels are designed specifically for tracking motion.
+
+A common three-wheel setup contains:
+
+```text
+       Forward
+          ↑
+
+     [ Parallel ]
+          |
+   [Perpendicular]
+```
+
+Two tracking wheels are parallel to each other, while another is perpendicular to them.
+
+Encoders attached to these wheels measure how far each wheel rotates.
+
+From these measurements, the robot can calculate:
+
+* Forward/backward movement
+* Sideways movement
+* Rotation
+
+### Why Dead Wheels?
+
+Because tracking wheels are not responsible for driving the robot, their measurements are less affected by drivetrain wheel slip.
+
+This makes dead wheel odometry a popular choice for competitive FTC robots.
+
+### Two-Wheel vs. Three-Wheel
+
+**Two-wheel odometry** uses two tracking wheels along with another source of heading information, usually an IMU.
+
+**Three-wheel odometry** uses three tracking wheels to measure both translational movement and rotation.
+
+Three-wheel odometry provides a complete measurement of planar motion from the tracking wheels, but requires additional hardware and careful mechanical alignment.
+
+### Advantages
+
+* Consistent movement measurements
+* Independent of drivetrain power
+* Good for precise autonomous routines
+* Works well with path-following systems
+
+### Disadvantages
+
+* Requires additional hardware
+* Tracking wheels must be mounted carefully
+* Wheel diameter and encoder measurements must be calibrated
+* Mechanical alignment affects accuracy
+
+---
+
+## goBILDA Pinpoint
+
+The **goBILDA Pinpoint** is an integrated odometry computer designed specifically for FTC robots.
+
+Instead of having your Robot Controller perform all of the odometry calculations itself, Pinpoint handles the tracking-wheel measurements and calculates the robot's pose.
+
+A typical Pinpoint setup uses two perpendicular odometry pods:
+
+```text
+        Forward
+           ↑
+
+      ┌─────────┐
+      │         │
+      │   ROBOT │
+      │         │
+      └─────────┘
+          │
+     ─────┼─────
+      Pinpoint
+     odometry pods
+```
+
+The Pinpoint reads the encoder measurements from its odometry pods and uses them to calculate the robot's:
+
+* X position
+* Y position
+* Heading
+
+It also includes an onboard IMU for heading measurement.
+
+### Why Use Pinpoint?
+
+Pinpoint simplifies the implementation of odometry.
+
+Without a dedicated odometry computer, your software needs to:
+
+1. Read encoder positions
+2. Convert encoder ticks to distances
+3. Account for the physical position of each tracking wheel
+4. Calculate robot movement
+5. Update the robot's pose
+
+Pinpoint performs much of this work on the device itself and provides the resulting pose to the Robot Controller.
+
+### Advantages
+
+* Designed specifically for FTC
+* Integrated odometry calculations
+* Built-in IMU
+* Supports two-wheel odometry
+* Reduces the amount of localization code needed
+* Provides a consistent hardware interface
+
+### Disadvantages
+
+* Requires dedicated hardware
+* Still depends on proper odometry pod installation
+* Requires calibration
+* Software must communicate with the Pinpoint
+
+Pinpoint is a particularly convenient option when a team wants dedicated odometry without implementing the complete localization system from scratch.
+
+---
+
+## REV Robotics OctoQuad
+
+The **REV Robotics OctoQuad** is an encoder interface that can read up to eight quadrature encoders.
+
+Unlike the Pinpoint, the OctoQuad is **not itself an odometry calculator**.
+
+Instead, it provides your Robot Controller with accurate encoder measurements that your localization software can use.
+
+```text
+Odometry Wheels
+      ↓
+   Encoders
+      ↓
+   OctoQuad
+      ↓
+Encoder Positions
+      ↓
+Localization Software
+      ↓
+     Pose
+```
+
+This makes the OctoQuad useful for robots with multiple encoders that need to be read simultaneously.
+
+For example, a three-wheel odometry system can connect its tracking-wheel encoders to an OctoQuad.
+
+Your software then uses those encoder measurements to calculate the robot's movement and update its pose.
+
+### Advantages
+
+* Supports up to eight quadrature encoders
+* Centralizes encoder connections
+* Reduces dependence on motor encoder ports
+* Useful for custom odometry systems
+* Can provide encoder data to your own localization code
+
+### Disadvantages
+
+* Does not calculate robot pose by itself
+* Requires localization software
+* Requires additional odometry hardware if used for dead wheels
+* Still requires calibration
+
+### Pinpoint vs. OctoQuad
+
+The biggest distinction is **where the localization calculation happens**.
+
+```text
+Pinpoint:
+
+Odometry → Pinpoint → Pose
+
+
+OctoQuad:
+
+Odometry → OctoQuad → Encoder Data → Your Code → Pose
+```
+
+Pinpoint is an **odometry computer**, while OctoQuad is an **encoder interface**.
+
+The OctoQuad therefore gives teams more control over how they implement localization, while Pinpoint handles more of the underlying odometry calculation for you.
+
+---
+
+## IMU Localization
+
+An **IMU**, or Inertial Measurement Unit, measures the robot's motion using inertial sensors.
+
+For FTC localization, the most useful measurement is usually **heading**.
+
+```text
+IMU
+ ↓
+Heading
+ ↓
+Robot orientation
+```
+
+An IMU can provide an independent measurement of the robot's orientation instead of relying entirely on wheel movement.
+
+### Encoder + IMU
+
+An IMU is often combined with encoder-based localization rather than being used by itself.
+
+For example:
+
+```text
+Encoders → X/Y movement
+IMU      → Heading
+             ↓
+        Robot Pose
+```
+
+The encoders estimate how the robot moved, while the IMU provides heading information.
+
+This is particularly common with two-wheel odometry.
+
+### Limitations
+
+IMUs are not perfect.
+
+Measurements can be affected by:
+
+* Sensor noise
+* Calibration
+* Magnetic interference on certain sensor types
+* Integration drift
+
+An IMU is therefore usually most useful as **one part of a larger localization system**.
+
+---
+
+## Vision-Based Localization
+
+Vision can also be used to determine the robot's position.
+
+Instead of measuring how far the robot has moved, a camera can observe known objects on the field and calculate the robot's pose relative to them.
+
+One common example is **AprilTags**.
+
+```text
+Camera
+   ↓
+Detect AprilTag
+   ↓
+Determine tag position
+   ↓
+Calculate robot pose
+```
+
+If the robot knows the location of an AprilTag on the field, the camera can use the tag's observed position and orientation to estimate where the robot is.
+
+### Advantages
+
+* Can provide an absolute reference
+* Does not accumulate wheel-based error in the same way as odometry
+* Useful for correcting accumulated localization drift
+* Can provide both position and heading
+
+### Disadvantages
+
+* Requires a camera
+* Performance depends on lighting and camera placement
+* Tags can be temporarily blocked
+* Detection introduces processing time
+* Pose accuracy depends on camera calibration
+
+Vision is often most useful when combined with odometry rather than replacing it completely.
+
+---
+
+## Sensor Fusion
+
+The most robust localization systems combine multiple sensors.
+
+This is called **sensor fusion**.
+
+For example, a robot might combine:
+
+```text
+Dead Wheels ──┐
+              ├──→ Localization ──→ Pose
+IMU ──────────┤
+              │
+AprilTags ────┘
+```
+
+Each sensor provides different information.
+
+| Method         | Measures             | Common weakness                             |
+| -------------- | -------------------- | ------------------------------------------- |
+| Drive encoders | Drive wheel movement | Wheel slip                                  |
+| Dead wheels    | Robot movement       | Mechanical alignment                        |
+| Pinpoint       | Odometry + heading   | Requires dedicated hardware                 |
+| OctoQuad       | Encoder measurements | Localization must be implemented separately |
+| IMU            | Heading              | Drift and noise                             |
+| Vision         | Absolute position    | Visibility and lighting                     |
+
+By combining these measurements, a robot can take advantage of the strengths of each sensor.
+
+For example, odometry can provide continuous position updates while the robot is moving, and an AprilTag detection can provide an absolute reference that helps correct accumulated error.
+
+---
+
+## Comparing Localization Methods
+
+| Method           | Extra Hardware           | Complexity  | Typical Use             |
+| ---------------- | ------------------------ | ----------- | ----------------------- |
+| Drive encoders   | None                     | Low         | Simple autonomous       |
+| 2-wheel odometry | Tracking wheels + IMU    | Medium      | Competitive robots      |
+| 3-wheel odometry | 3 tracking wheels        | Medium      | Precise autonomous      |
+| Pinpoint         | Pinpoint + odometry pods | Low-Medium  | Easy dedicated odometry |
+| OctoQuad         | OctoQuad + encoders      | Medium-High | Custom odometry         |
+| Vision           | Camera                   | High        | Absolute corrections    |
+| Sensor fusion    | Multiple systems         | High        | Advanced localization   |
+
+These categories are not absolute. A well-calibrated simple system can outperform a poorly calibrated advanced one.
+
+**Mechanical consistency and calibration are just as important as the localization hardware.**
+
+## Choosing a Localization System
+
+For a beginner robot, **drive encoders** may be enough.
+
+For a competitive robot, **dead wheel odometry** is a common choice.
+
+If you want dedicated odometry with less localization code, **goBILDA Pinpoint** is a convenient option.
+
+If you want direct access to multiple encoder measurements and control over the localization algorithm, **REV Robotics OctoQuad** is a powerful option.
+
+For advanced systems, odometry can be combined with an **IMU and vision** to provide both continuous tracking and absolute position corrections.
+
+A useful progression is:
+
+```text
+Drive Encoders
+      ↓
+Dead Wheel Odometry
+      ↓
+Pinpoint / OctoQuad
+      ↓
+Odometry + IMU
+      ↓
+Odometry + IMU + Vision
+```
+
+You do not need the most complicated system to have good localization. Choose the simplest system that provides the accuracy your robot needs.
+
+## What's Next?
+
+Once your robot can estimate its pose, you can use that information to control where it goes.
+
+Continue to **Path Following** to learn how autonomous systems use localization to follow paths and correct their movement.

@@ -1,5 +1,5 @@
 {
-    "pages": ["pid-movement", "localization-odometry", "pathing"],
+    "pages": ["pid-movement", "localization", "localization-methods", "pathing"],
     "root": false,
     "title": "Autonomous",
     "description": "Autonomous"

@@ -17,13 +17,13 @@ Vision is particularly useful when the information you need cannot easily be obt
 
 Common applications include:
 
-- Detecting AprilTags
-- Localizing the robot on the field
-- Aligning with scoring targets
-- Detecting game elements
-- Identifying objects by color or shape
-- Estimating distance and orientation
-- Tracking objects
+* Detecting AprilTags
+* Localizing the robot on the field
+* Aligning with scoring targets
+* Detecting game elements
+* Identifying objects by color or shape
+* Estimating distance and orientation
+* Tracking objects
 
 Vision is not always the best solution. Cameras add complexity and can be affected by lighting, camera placement, motion blur, and processing limitations.
 
@@ -63,15 +63,38 @@ Robot uses that information to align
 
 The important idea is that **vision turns images into data**.
 
+## Vision Hardware
+
+Before processing an image, your robot needs a way to capture one.
+
+FTC robots can use several types of cameras and vision hardware, ranging from inexpensive USB webcams to dedicated vision processors.
+
+Common options include:
+
+* Logitech C270
+* Logitech C310
+* Logitech C920
+* Global shutter cameras
+* Android phone cameras
+* Limelight 3A
+
+Different cameras have different tradeoffs in resolution, field of view, frame rate, shutter type, and calibration.
+
+For example, a global shutter camera can reduce motion distortion on a fast-moving robot, while a Logitech C920 provides a good general-purpose webcam with extensive FTC calibration support.
+
+The **Limelight 3A** takes a different approach by performing vision processing on dedicated hardware rather than sending the camera feed to the Robot Controller for processing.
+
+See [Cameras](./cameras) for a comparison of camera and vision hardware available for FTC.
+
 ## Vision in FTC
 
-There are several technologies you may encounter when programming vision for an FTC robot.
+Once a camera is connected, FTC provides several technologies for turning its images into useful information.
 
 ### VisionPortal
 
 VisionPortal is the FTC SDK's framework for working with cameras and vision processors.
 
-It provides built-in support for technologies such as AprilTags and can also be used with custom vision processors.
+It manages the camera stream and provides frames to vision processors. Multiple processors can use the same camera.
 
 ### AprilTags
 
@@ -93,13 +116,66 @@ Limelight is a dedicated vision system that performs image processing on its own
 
 It can be used for AprilTags, object detection, localization, and other vision applications.
 
-## The Vision section
+## How the Pieces Fit Together
 
-This section focuses on four major parts of FTC vision:
+These technologies solve different parts of the vision problem.
 
-1. [VisionPortal](./vision/visionportal): The FTC SDK's vision framework
-2. [AprilTags](./vision/apriltags): A powerful way to detect known visual markers
-3. [OpenCV](./vision/opencv): A toolkit for creating custom vision pipelines
-4. [Limelight](./vision/limelight): Dedicated vision hardware for advanced vision processing
+```text
+Camera
+   ↓
+Captures images
+   ↓
+Vision Framework
+   ↓
+VisionPortal / Limelight
+   ↓
+Vision Processing
+   ↓
+AprilTags / OpenCV / Other Processors
+   ↓
+Useful Data
+   ↓
+Robot Code
+```
+
+For example, a conventional FTC webcam might use:
+
+```text
+Webcam
+   ↓
+VisionPortal
+   ↓
+AprilTag Processor
+   ↓
+AprilTag Detection
+   ↓
+Robot Code
+```
+
+A Limelight follows a different architecture:
+
+```text
+Limelight Camera
+   ↓
+Limelight Processor
+   ↓
+AprilTag / Vision Pipeline
+   ↓
+Vision Result
+   ↓
+Robot Code
+```
+
+Understanding these layers makes it easier to choose the right hardware and software for your robot.
+
+## The Vision Section
+
+This section focuses on the major parts of FTC vision:
+
+1. [Cameras](./vision/cameras): Cameras and vision hardware you can use on your robot
+2. [VisionPortal](./vision/visionportal): The FTC SDK's vision framework
+3. [AprilTags](./vision/apriltags): A powerful way to detect known visual markers
+4. [OpenCV](./vision/opencv): A toolkit for creating custom vision pipelines
+5. [Limelight](./vision/limelight): Dedicated vision hardware for advanced vision processing
 
 Each technology solves a slightly different problem. Understanding how they fit together is more important than memorizing a particular API.

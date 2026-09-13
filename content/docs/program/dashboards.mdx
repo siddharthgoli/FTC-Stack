@@ -1,0 +1,338 @@
+---
+title: Dashboards
+description: Learn how FTC teams speed up debugging
+---
+
+Dashboards give you a way to see what your robot is doing while it runs. Instead of relying entirely on Driver Station telemetry, a web dashboard can display live values, graphs, robot position, configuration variables, camera feeds, and other debugging information.
+
+Two popular options are **FTC Dashboard** and **Panels**.
+
+|                      | FTC Dashboard | Panels          |
+| -------------------- | ------------- | --------------- |
+| Telemetry            | ✓             | ✓               |
+| Graphs               | ✓             | ✓               |
+| Field visualization  | ✓             | ✓               |
+| Live configuration   | ✓             | ✓               |
+| OpMode control       | ✓             | ✓               |
+| Camera support       | ✓             | Limelight proxy |
+| Match capture/replay |               | ✓               |
+| Plugins              |               | ✓               |
+| Customization        | ✓             | ✓               |
+
+## FTC Dashboard
+
+[FTC Dashboard](https://acmerobotics.github.io/ftc-dashboard/) is a web-based dashboard originally developed by ACME Robotics. It connects to the Robot Controller over Wi-Fi and provides tools for telemetry, graphs, field visualization, configuration variables, camera streaming, and limited OpMode controls.
+
+### Installation
+
+Add the Maven repository to `build.dependencies.gradle`:
+
+```groovy
+repositories {
+    maven { url = 'https://maven.brott.dev/' }
+}
+```
+
+Then add the dashboard dependency:
+
+```groovy
+dependencies {
+    implementation 'com.acmerobotics.dashboard:dashboard:0.6.0'
+}
+```
+
+The current documented release is `0.6.0`.
+
+Once your robot is connected to the Robot Controller's Wi-Fi, open:
+
+```text
+Phone RC:
+192.168.49.1:8080/dash
+
+Control Hub:
+192.168.43.1:8080/dash
+```
+
+---
+
+## Telemetry
+
+FTC Dashboard's most basic feature is live telemetry.
+
+You can send individual values using a `TelemetryPacket`:
+
+```java
+TelemetryPacket packet = new TelemetryPacket();
+
+packet.put("x", x);
+packet.put("y", y);
+packet.put("heading", heading);
+
+FtcDashboard.getInstance().sendTelemetryPacket(packet);
+```
+
+The dashboard can then display and graph these values while the robot is running.
+
+You can also use Dashboard's `Telemetry` implementation:
+
+```java
+Telemetry dashboardTelemetry =
+        FtcDashboard.getInstance().getTelemetry();
+
+dashboardTelemetry.addData("x", x);
+dashboardTelemetry.addData("y", y);
+dashboardTelemetry.update();
+```
+
+### Driver Station + Dashboard telemetry
+
+Usually, you want your telemetry to appear on both the Driver Station and the dashboard.
+
+`MultipleTelemetry` lets you send the same data to multiple telemetry destinations:
+
+```java
+telemetry = new MultipleTelemetry(
+    telemetry,
+    FtcDashboard.getInstance().getTelemetry()
+);
+```
+
+Now normal calls such as:
+
+```java
+telemetry.addData("heading", heading);
+telemetry.update();
+```
+
+will appear on both the Driver Station and FTC Dashboard.
+
+---
+
+## Graphs
+
+Graphs are particularly useful when tuning mechanisms or control loops.
+
+For example, you might send:
+
+```java
+packet.put("targetVelocity", targetVelocity);
+packet.put("actualVelocity", actualVelocity);
+```
+
+You can then graph both values to see how closely your mechanism follows its target.
+
+This is useful for:
+
+* PID tuning
+* Flywheel velocity
+* Motor current
+* Encoder velocity
+* Battery voltage
+* Loop timing
+* Localization error
+* Sensor readings
+
+Rather than printing hundreds of values to telemetry, a graph lets you see how a value changes over time.
+
+---
+
+## Field View
+
+FTC Dashboard can also draw graphics on top of a representation of the FTC field.
+
+The `fieldOverlay()` method gives you a `Canvas` that records drawing operations:
+
+```java
+packet.fieldOverlay()
+    .setFill("blue")
+    .fillRect(-20, -20, 40, 40);
+```
+
+You can use this to visualize things such as:
+
+* Robot position
+* Robot heading
+* Autonomous paths
+* Target positions
+* Vision detections
+* Localization data
+
+For example, a localization system can draw the robot's estimated pose directly on the field. This makes it much easier to identify problems such as incorrect starting poses, heading drift, or an inaccurate coordinate system.
+
+---
+
+## Configuration Variables
+
+One of FTC Dashboard's most useful features is live configuration.
+
+A variable can be exposed to the dashboard using `@Config`:
+
+```java
+@Config
+public class ShooterConstants {
+    public static double kP = 0.001;
+    public static double kV = 0.0003;
+}
+```
+
+The dashboard can then modify these values while the robot is running.
+
+This is extremely useful for tuning. Instead of changing:
+
+```java
+public static double kP = 0.001;
+```
+
+in Android Studio, rebuilding the app, and redeploying it after every change, you can change the value directly from the dashboard.
+
+### Important
+
+Configuration fields must be `static` and non-`final` to be modified by the dashboard.
+
+A common pattern is to keep tunable constants in their own class:
+
+```java
+@Config
+public class DriveConstants {
+    public static double kP = 0.01;
+    public static double kD = 0.001;
+}
+```
+
+Then your control code references:
+
+```java
+DriveConstants.kP
+DriveConstants.kD
+```
+
+This keeps tuning parameters separate from the actual control logic.
+
+---
+
+# Panels
+
+[Panels](https://ftcontrol.bylazar.com/docs/panels/overview/) is a newer all-in-one FTC dashboard developed by Lazar from FTC team 19234 ByteForce. It provides telemetry, graphs, field visualization, live configuration, OpMode control, capture/replay, Limelight support, and a plugin system.
+
+Panels was designed in part as an alternative to the traditional FTC Dashboard workflow. Its interface puts more of the tools you need during development into a single dashboard.
+
+### Accessing Panels
+
+After installing Panels and connecting to the Robot Controller Wi-Fi, open:
+
+```text
+Phone RC:
+192.168.49.1:8001
+
+Control Hub:
+192.168.43.1:8001
+```
+
+Panels can also be installed as a Progressive Web App from a Chromium-based browser.
+
+---
+
+## Why use Panels?
+
+Panels covers many of the same jobs as FTC Dashboard, but adds several features aimed at making robot development more integrated.
+
+### OpMode control
+
+Panels provides controls for starting, stopping, and switching OpModes from the dashboard.
+
+This means you can keep your debugging tools and OpMode controls in one interface instead of switching between applications.
+
+### Configurables
+
+Panels provides live-configurable values similar to FTC Dashboard.
+
+This is useful when tuning:
+
+```text
+PID coefficients
+Feedforward constants
+Motor powers
+Servo positions
+Vision parameters
+Mechanism limits
+```
+
+You can change values during testing without rebuilding the entire robot application.
+
+### Capture and replay
+
+One of Panels' major additions is **Capture**.
+
+Capture can record robot data during a run and replay it later for debugging. This can be useful when a problem only occurs during a particular sequence of actions or during a match.
+
+Instead of trying to reproduce the exact situation manually, you can analyze the captured data afterward.
+
+### Limelight support
+
+Panels includes Limelight support, including a Limelight proxy that can expose Limelight functionality through the dashboard without requiring the usual USB connection workflow.
+
+This can be particularly useful when tuning AprilTag pipelines or debugging vision during robot development.
+
+### Plugins
+
+Panels is designed around a plugin architecture.
+
+Plugins can add functionality to the dashboard instead of requiring every feature to be part of the core application. The project describes Panels as an FTC app-modification platform where developers can build custom plugins using its frontend and backend APIs.
+
+This makes Panels more extensible than a traditional dashboard.
+
+---
+
+# FTC Dashboard vs. Panels
+
+Both tools solve the same fundamental problem: **giving developers visibility into the robot while it is running.**
+
+FTC Dashboard is a strong choice if you primarily need:
+
+* Telemetry
+* Graphs
+* Field visualization
+* Live configuration
+* Camera streaming
+* A lightweight and established dashboard
+
+Panels is particularly interesting if you want:
+
+* An all-in-one development interface
+* Capture and replay
+* More extensive configurables
+* Limelight integration
+* Plugins and extensibility
+* A more modern dashboard experience
+
+Panels' own documentation describes it as an improved and more complete experience inspired by FTC Dashboard, while also noting that Panels is still under active development.
+
+### Which should you use?
+
+For most teams, **either is capable of handling the core debugging and tuning workflow**.
+
+If your team already uses FTC Dashboard and it does everything you need, there is little reason to switch just for telemetry and graphs.
+
+If you want a broader development environment with capture/replay, Limelight tooling, and plugins, **Panels is worth considering**.
+
+The important concept is not the dashboard itself. It is using live data to make development measurable.
+
+Instead of:
+
+> "The flywheel seems too slow."
+
+You can measure:
+
+```text
+Target RPM:   3500
+Actual RPM:   3312
+Error:        188 RPM
+```
+
+And instead of:
+
+> "Our autonomous seems to drift."
+
+You can visualize the robot's estimated pose and compare it against the expected path.
+
+**A dashboard turns robot behavior into data you can actually debug.**

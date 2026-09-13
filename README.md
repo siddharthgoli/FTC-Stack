@@ -15,6 +15,11 @@ yarn dev
 
 Open http://localhost:3000 with your browser to see the result.
 
+The chat search index checks for changed documentation every five minutes by
+default. Set `SEARCH_INDEX_REFRESH_INTERVAL_MS` to change that interval. The
+check runs when a chat request arrives, so use a scheduled request if the
+deployment must refresh while idle.
+
 ## Explore
 
 In the project, you can see:
