@@ -33,31 +33,53 @@ Many teams choose Pedro Pathing because it requires less tuning than traditional
 
 ### MeepMeep
 
-**Website:** https://github.com/noahbres/MeepMeep
+**Website:** https://github.com/acmerobotics/MeepMeep
 
 MeepMeep is a desktop simulator for visualizing Road Runner trajectories before running them on a physical robot. It allows teams to design and test autonomous paths quickly without deploying code.
 
 ---
 
-# Control Flow
+## Control Flow
 
 ### FTCLib
 
-**Website:** https://github.com/FTCLib/FTCLib
+**Website:** https://docs.ftclib.org/ftclib/command-base/command-system/
 
-FTCLib is the most popular robotics framework for FTC outside of the SDK itself. It includes a command-based architecture inspired by WPILib, along with PID controllers, geometry classes, kinematics, odometry utilities, and many helper classes.
+FTCLib is one of the most widely used robotics frameworks for FTC. Its command-based architecture, inspired by WPILib, helps teams organize robot actions into reusable commands and subsystems.
 
-FTCLib is an excellent choice for teams looking to build organized and scalable codebases.
+> **Note:** FTCLib's documentation may not work, but the library remains available on GitHub. See Solverslib Docs.
+
+---
+
+### Mercurial
+
+**Website:** https://docs.dairy.foundation/Mercurial/overview
+
+Mercurial is a command-based framework for FTC focused on simplifying robot code while providing a flexible system for commands, subsystems, and scheduling.
 
 ---
 
-### StateFactory
+### SolversLib
 
-**Website:** https://github.com/StateFactory/statefactory
+**Website:** https://docs.seattlesolvers.com/command-base/command-system
 
-StateFactory is a lightweight command and state machine framework designed specifically for FTC. It helps organize robot actions into reusable commands and states while keeping code simple and readable.
+SolversLib is a successor to FTCLib developed by Seattle Solvers. It provides a command-based architecture along with utilities for building organized and reusable FTC code.
 
 ---
+
+### NextFTC
+
+**Website:** https://nextftc.dev/nextftc/
+
+NextFTC is a modern command-based framework for FTC. It provides commands, subsystems, components, and hardware utilities designed to make FTC code easier to organize and maintain.
+
+---
+
+### Ivy
+
+**Website:** https://pedropathing.com/docs/ivy
+
+Ivy is a command-based framework developed by the Pedro Pathing team. It provides a simple way to structure robot actions using commands and subsystems while integrating closely with the Pedro Pathing ecosystem.
 
 ## Dashboards
 
@@ -79,13 +101,13 @@ Panels is a modern telemetry dashboard featuring live visualization, replay capa
 
 ---
 
-## Vision Libraries
+## Vision
 
 ### VisionPortal
 
-**Website:** https://ftc-docs.firstinspires.org/
+**Website:** https://ftc-docs.firstinspires.org/apriltag/vision_portal/visionportal_overview/visionportal-overview.html
 
-VisionPortal is built directly into the FTC SDK and provides support for AprilTags, TensorFlow Object Detection, and USB webcams.
+VisionPortal is the FTC SDK's built-in framework for working with cameras and vision processors. It provides a standardized way to stream camera data and run processors such as AprilTag and Color Detection.
 
 ---
 
@@ -94,15 +116,5 @@ VisionPortal is built directly into the FTC SDK and provides support for AprilTa
 **Website:** https://github.com/OpenFTC/EasyOpenCV
 
 EasyOpenCV simplifies using OpenCV within FTC robots. It provides an easy-to-use framework for building custom image processing pipelines.
-
----
-
-## Performance & Utilities
-
-### PhotonFTC
-
-**Website:** https://github.com/Eeshwar-Krishnan/PhotonFTC
-
-PhotonFTC improves SDK performance by reducing loop overhead and optimizing robot execution speed. Teams looking to maximize control loop frequency may find it useful.
 
 ---

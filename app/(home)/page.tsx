@@ -27,13 +27,13 @@ const sectionCards = [
         href: "/docs/program/teleop",
         icon: Code2,
     },
-    {
-        title: "Control Theory",
-        description:
-            "Feedback systems, PID, motion control, localization, and tuning.",
-        href: "/docs/control-theory/open-closed",
-        icon: Gauge,
-    },
+    // {
+    //     title: "Control Theory",
+    //     description:
+    //         "Feedback systems, PID, motion control, localization, and tuning.",
+    //     href: "/docs/control-theory/open-closed",
+    //     icon: Gauge,
+    // },
     {
         title: "Vision",
         description:
@@ -41,13 +41,13 @@ const sectionCards = [
         href: "/docs/vision",
         icon: Eye,
     },
-    {
-        title: "Reference",
-        description:
-            "Libraries, tools, terminology, and resources for building your robot.",
-        href: "/docs/reference/resources",
-        icon: BookOpenText,
-    },
+    // {
+    //     title: "Reference",
+    //     description:
+    //         "Libraries, tools, terminology, and resources for building your robot.",
+    //     href: "/docs/reference/resources",
+    //     icon: BookOpenText,
+    // },
 ];
 
 export default function HomePage() {

@@ -372,17 +372,10 @@ export function FeedbackText({ onSendAction, children }: FeedbackTextProps) {
     function expandPopup() {
         if (popup?.mode !== "tooltip") return;
 
-        const highlight = new Highlight(popup.range);
-        CSS.highlights.set("fd-feedback-text", highlight);
-
         _setPopup({ ...popup, mode: "expanded" });
     }
 
     function closePopup() {
-        if (popup?.mode === "expanded") {
-            CSS.highlights.delete("fd-feedback-text");
-        }
-
         _setPopup(null);
     }
 
@@ -490,7 +483,7 @@ export function FeedbackText({ onSendAction, children }: FeedbackTextProps) {
         <>
             <div
                 ref={containerRef}
-                className="prose-no-margin [&_::highlight(fd-feedback-text)]:bg-fd-primary [&_::highlight(fd-feedback-text)]:text-fd-primary-foreground"
+                className="prose-no-margin"
             >
                 {children}
             </div>
