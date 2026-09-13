@@ -19,10 +19,34 @@ const jetbrainsMono = JetBrains_Mono({
 const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
+    metadataBase: new URL("https://www.ftcstack.com"),
     title: appName,
+    description: "A practical programming curriculum for teams that want to move beyond getting a robot to work and start building software that can compete.",
     icons: {
         icon: logoSrc,
     },
+    openGraph: {
+        title: appName,
+        description: "A practical programming curriculum for teams that want to move beyond getting a robot to work and start building software that can compete.",
+        url: "https://www.ftcstack.com",
+        siteName: appName,
+        type: "website",
+        // images: [
+        //     {
+        //         url: "/og-image.png",
+        //         width: 1200,
+        //         height: 630,
+        //         alt: appName,
+        //     },
+        // ],
+    },
+    // twitter: {
+    //     card: "summary_large_image",
+    //     title: appName,
+    //     description:
+    //         "A practical programming curriculum for teams that want to move beyond getting a robot to work and start building software that can compete.",
+    //     images: ["/og-image.png"],
+    // },
 };
 
 export default function Layout({ children }: LayoutProps<"/">) {
