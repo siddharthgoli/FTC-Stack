@@ -6,7 +6,7 @@ seoTitle: FTC Autonomous Programming
 
 Autonomous is the first portion of every FTC match. During this period, the robot must operate entirely on its own without any driver input.
 
-Unlike TeleOp, where the robot continuously reacts to gamepad inputs, an autonomous program follows a predetermined sequence of actions based on sensor data, timers, and control algorithms.
+Unlike [TeleOp](/docs/program/teleop), where the robot continuously reacts to [gamepad](/docs/learn/sdk-basics/gamepads) inputs, an autonomous program follows a predetermined sequence of actions based on [sensor](/docs/learn/sdk-basics/sensors) data, timers, and control algorithms.
 
 A successful autonomous routine should be:
 
@@ -17,7 +17,7 @@ A successful autonomous routine should be:
 
 ## How Autonomous Works
 
-An autonomous OpMode generally follows the same structure as any other OpMode.
+An autonomous [OpMode](/docs/learn/sdk-basics/opmodes) generally follows the same structure as any other OpMode.
 
 1. Initialize hardware.
 2. Wait for the match to begin.
@@ -48,11 +48,11 @@ Modern FTC autonomous programs are built from several key components.
 
 ### Motion Control
 
-Mechanisms such as lifts and arms often use PID controllers to accurately reach target positions.
+Mechanisms such as lifts and arms often use [PID controllers](/docs/control-theory/pid-control) to accurately reach target positions.
 
 ### Localization
 
-The robot must estimate where it is on the field using sensors such as encoders and IMUs.
+The robot must estimate where it is on the field using sensors such as encoders and [IMUs](/docs/learn/sdk-basics/sensors/imu).
 
 ### Path Following
 
@@ -63,7 +63,7 @@ Instead of commanding individual motor powers, modern robots follow smooth traje
 The remaining pages introduce the major concepts behind modern autonomous programming.
 
 - **PID Movement** explains how to accurately move mechanisms with a feedback controller.
-- **Localization & Odometry** introduces robot position tracking.
+- **Localization & Odometry** introduces [robot position tracking](/docs/program/auto/localization).
 - **Road Runner** provides an overview of a veteran FTC path planning library.
 - **Pedro Pathing** introduces a newer, alternative path-following library.
 

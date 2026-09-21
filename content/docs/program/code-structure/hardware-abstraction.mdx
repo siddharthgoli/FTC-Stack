@@ -6,7 +6,7 @@ seoTitle: FTC Hardware Abstraction
 
 Hardware abstraction is the process of separating the physical robot hardware from the code that controls it.
 
-Instead of every part of the code directly controlling motors and servos, hardware is organized behind higher-level interfaces.
+Instead of every part of the code directly controlling [motors](/docs/learn/sdk-basics/motors) and [servos](/docs/learn/sdk-basics/servos), hardware is organized behind higher-level interfaces.
 
 ## The Problem
 
@@ -42,7 +42,7 @@ You can write:
 shooter.shoot();
 ```
 
-The subsystem handles the details of how the shooter works.
+The [subsystem](/docs/program/code-structure/subsystems) handles the details of how the shooter works.
 
 ## Benefits
 
@@ -52,7 +52,7 @@ If a motor is replaced, only the subsystem needs to change.
 
 ### Cleaner Code
 
-OpModes describe what the robot should do rather than how every motor should move.
+[OpModes](/docs/learn/sdk-basics/opmodes) describe what the robot should do rather than how every motor should move.
 
 ### Better Testing
 

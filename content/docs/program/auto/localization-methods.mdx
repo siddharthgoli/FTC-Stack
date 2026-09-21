@@ -6,7 +6,7 @@ seoTitle: FTC Localization Methods
 
 There are several ways an FTC robot can determine its position on the field.
 
-Most localization systems use some combination of **drive encoders, odometry wheels, IMUs, and vision**. FTC also has dedicated hardware that simplifies the process, such as the **goBILDA Pinpoint** and **REV Robotics Expansion Hub / Control Hub encoder interfaces and the OctoQuad**.
+Most localization systems use some combination of **drive encoders, odometry wheels, [IMUs](/docs/learn/sdk-basics/sensors/imu), and [vision](/docs/vision)**. FTC also has dedicated hardware that simplifies the process, such as the **goBILDA Pinpoint** and **REV Robotics Expansion Hub / Control Hub encoder interfaces and the OctoQuad**.
 
 Each method has different advantages, limitations, and levels of complexity.
 
@@ -174,9 +174,9 @@ Pinpoint is a particularly convenient option when a team wants dedicated odometr
 
 ---
 
-## REV Robotics OctoQuad
+## OctoQuad
 
-The **REV Robotics OctoQuad** is an encoder interface that can read up to eight quadrature encoders.
+The **OctoQuad** is an encoder interface that can read up to eight quadrature encoders.
 
 Unlike the Pinpoint, the OctoQuad is **not itself an odometry calculator**.
 
@@ -256,7 +256,7 @@ An IMU can provide an independent measurement of the robot's orientation instead
 
 ### Encoder + IMU
 
-An IMU is often combined with encoder-based localization rather than being used by itself.
+An [IMU](/docs/learn/sdk-basics/sensors/imu) is often combined with encoder-based localization rather than being used by itself.
 
 For example:
 

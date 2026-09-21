@@ -6,7 +6,7 @@ seoTitle: FTC Robot Class Design
 
 The Robot class is responsible for connecting all of the robot's components together.
 
-It creates, stores, and manages the subsystems that make up the robot.
+It creates, stores, and manages the [subsystems](/docs/program/code-structure/subsystems) that make up the robot.
 
 A typical Robot class looks like:
 
@@ -35,7 +35,7 @@ Each subsystem has its own initialization and update methods.
 
 The `init()` method is responsible for setting up hardware, while the `update()` method runs repeatedly to update the subsystem's behavior.
 
-Without a Robot class, every OpMode would need to manually manage every subsystem:
+Without a Robot class, every [OpMode](/docs/learn/sdk-basics/opmodes) would need to manually manage every subsystem:
 
 ```java
 drive.init(hardwareMap);

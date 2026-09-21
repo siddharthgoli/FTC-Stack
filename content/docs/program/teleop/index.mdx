@@ -4,7 +4,7 @@ description: Learn how TeleOp works and how to write responsive driver-controlle
 seoTitle: FTC TeleOp Programming
 ---
 
-TeleOp (short for **Tele-Operated**) is the portion of an FTC match where drivers directly control the robot using gamepads. During this period, your program continuously reads controller inputs, updates robot logic, and sends commands to motors and servos.
+TeleOp (short for **Tele-Operated**) is the portion of an FTC match where drivers directly control the robot using [gamepads](/docs/learn/sdk-basics/gamepads). During this period, your program continuously reads controller inputs, updates robot logic, and sends commands to [motors](/docs/learn/sdk-basics/motors) and [servos](/docs/learn/sdk-basics/servos).
 
 Unlike Autonomous, where the robot follows a pre-programmed routine, TeleOp is entirely reactive. Every loop, your code asks questions like:
 
@@ -22,7 +22,7 @@ A TeleOp OpMode follows a simple pattern:
 1. Read driver inputs.
 2. Process those inputs.
 3. Update robot mechanisms.
-4. Send telemetry.
+4. Send [telemetry](/docs/learn/sdk-basics/telemetry).
 5. Repeat until the match ends.
 
 ```java
