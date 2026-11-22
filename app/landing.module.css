@@ -15,55 +15,76 @@
     mask-image: linear-gradient(to bottom, #000 calc(100% - 12rem), transparent calc(100% - 4rem));
 }
 
+[data-home-layout].backdrop {
+    --home-nav-height: 3.5rem;
+}
+
+[data-home-layout].backdrop :global(#nd-home-layout) {
+    padding-block-start: var(--home-nav-height);
+}
+
+[data-home-layout].backdrop :global(#nd-nav) {
+    position: fixed;
+    inset: 0 0 auto;
+    height: var(--home-nav-height);
+}
+
 .homeFooter {
     padding-block: clamp(0.75rem, 2dvh, 1.5rem);
 }
 
-.curriculum {
-    --curriculum-inset: 1.25rem;
-    --curriculum-card-inset: 1rem;
-    padding: var(--curriculum-inset);
-    border-radius: calc(var(--radius-2xl) + var(--curriculum-inset));
+.homeContent {
+    container: homepage / inline-size;
 }
 
-.curriculumCard {
-    padding: var(--curriculum-card-inset);
-    border-radius: var(--radius-2xl);
+.heroCopy {
+    container-type: inline-size;
+    width: 100%;
+    max-width: 42rem;
+    margin-inline: auto;
+    text-align: center;
 }
 
-.curriculumIcon {
-    border-radius: max(0px, calc(var(--radius-2xl) - var(--curriculum-card-inset)));
+.heroTitle {
+    font-size: clamp(2.5rem, 12cqi, 4.5rem);
 }
 
-@media (min-width: 40rem) {
-    .curriculum {
-        --curriculum-inset: 1.5rem;
+.heroDescription {
+    margin-inline: auto;
+}
+
+@container homepage (min-width: 64rem) {
+    .heroGrid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
+        gap: 3.5rem;
+    }
+
+    .heroCopy {
+        text-align: start;
+    }
+
+    .heroDescription {
+        margin-inline: 0;
+    }
+
+    .homeGuides {
+        max-width: none;
     }
 }
 
+.curriculumCard {
+    padding: 1rem;
+    border-radius: var(--radius-2xl);
+}
+
 @media (min-width: 64rem) {
-    .curriculum {
-        --curriculum-inset: clamp(1.25rem, 2.5dvh, 1.75rem);
-        --curriculum-card-inset: clamp(0.625rem, 1.4dvh, 1rem);
+    .curriculumCard {
+        padding: clamp(0.625rem, 1.4dvh, 1rem);
     }
 }
 
 @media (min-width: 64rem) and (max-height: 58rem) {
     .homeGuides {
         --guide-inset: 1rem;
-    }
-
-    .cardHeading {
-        grid-template-columns: auto minmax(0, 1fr) auto;
-        gap: 0.5rem;
-    }
-
-    .cardTitle {
-        grid-area: 1 / 2;
-        margin-top: 0;
-    }
-
-    .cardArrow {
-        grid-area: 1 / 3;
     }
 }
