@@ -1,0 +1,141 @@
+---
+title: HardwareMap
+description: Connect your Java code to the physical robot hardware.
+seoTitle: FTC HardwareMap
+---
+
+The **HardwareMap** connects your code to the physical devices on your robot.
+
+Before your code can control a motor, servo, or sensor, it must get a reference to that device from the HardwareMap.
+
+## Robot Configuration Names
+
+Every piece of hardware on your robot has a configuration name.
+
+Example:
+
+```
+leftMotor
+rightMotor
+clawServo
+imu
+```
+
+Your code must use the exact same name.
+
+## Getting Hardware
+
+Hardware is retrieved using:
+
+```java
+hardwareMap.get()
+```
+
+The format is:
+
+```java
+deviceType variable = hardwareMap.get(deviceType.class, "name");
+```
+
+Example:
+
+```java
+DcMotor motor;
+
+motor = hardwareMap.get(DcMotor.class, "leftMotor");
+```
+
+## Mapping Variables
+
+Usually, hardware is initialized at the beginning of your OpMode.
+
+```java
+@Override
+public void runOpMode() {
+
+    DcMotor leftMotor;
+
+    leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
+
+}
+```
+
+## Common Hardware Types
+
+### Motors
+
+```java
+DcMotor motor;
+```
+
+### Servos
+
+```java
+Servo servo;
+```
+
+### Sensors
+
+```java
+DistanceSensor sensor;
+```
+
+## Common Errors
+
+### Wrong Device Name
+
+Example configuration:
+
+```
+left_drive
+```
+
+Code:
+
+```java
+hardwareMap.get(DcMotor.class, "leftMotor");
+```
+
+The names do not match, causing an error.
+
+### Missing Hardware
+
+If a device is not connected or configured, initialization will fail.
+
+### NullPointerException
+
+A common mistake is using hardware before initializing it.
+
+Bad:
+
+```java
+DcMotor motor;
+
+motor.setPower(1);
+```
+
+The motor does not reference anything.
+
+Good:
+
+```java
+DcMotor motor;
+
+motor = hardwareMap.get(DcMotor.class, "motor");
+
+motor.setPower(1);
+```
+
+## Best Practices
+
+- Use descriptive names.
+- Keep configuration names consistent.
+- Initialize hardware before using it.
+- Avoid changing names during the season.
+
+## Key Takeaways
+
+- HardwareMap connects software to hardware.
+- Names must exactly match the robot configuration.
+- Always initialize hardware before using it.
+- Most hardware errors come from incorrect configuration.

@@ -1,0 +1,53 @@
+---
+title: Arcade Drive
+description: Learn how arcade drive works and when to use it.
+seoTitle: FTC Arcade Drive
+---
+
+Arcade drive combines forward movement and turning into a single joystick pair.
+
+Instead of controlling each side independently, one joystick controls forward and backward movement while another controls rotation.
+
+This makes driving more intuitive for many drivers.
+
+## Basic Controls
+
+A common setup is:
+
+- Left joystick Y controls forward and backward movement.
+- Right joystick X controls turning.
+
+The program combines these values to determine how much power each motor should receive.
+
+## Mixing Inputs
+
+The simplest arcade drive algorithm is:
+
+```java
+double drive = -gamepad1.left_stick_y;
+double turn = gamepad1.right_stick_x;
+
+double leftPower = drive + turn;
+double rightPower = drive - turn;
+```
+
+As the driver turns, one side speeds up while the other slows down.
+
+## Advantages
+
+- Easier for beginners
+- Only one joystick controls movement
+- Smooth steering
+- Simple implementation
+
+## Disadvantages
+
+Arcade drive still cannot move sideways.
+
+For FTC robots with mecanum wheels, robot-centric or field-centric mecanum drive provides much greater mobility.
+
+## Next Steps
+
+Most FTC robots use mecanum wheels, allowing movement in every direction.
+
+Continue to [Mecanum Drive](/docs/teleop/mecanum).

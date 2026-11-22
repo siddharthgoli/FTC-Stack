@@ -1,0 +1,133 @@
+---
+title: Project Structure
+description: Learn how the FTC SDK is organized and where you'll write your code.
+seoTitle: FTC SDK Project Structure
+---
+
+## Why Project Structure Matters
+
+Before writing your first line of code, it's important to understand how the FTC SDK is organized.
+
+The project contains many folders, but you'll only interact with a handful of them on a regular basis. Knowing where everything lives will make it much easier to navigate the codebase and understand tutorials.
+
+## Top-Level Structure
+
+When you first open the project, you'll see something similar to this:
+
+```text
+FtcRobotController/
+├── FtcRobotController/
+├── TeamCode/
+├── gradle/
+├── build.gradle
+├── settings.gradle
+├── gradlew
+└── README.md
+```
+
+Let's look at the most important parts.
+
+## TeamCode
+
+The **TeamCode** module is where you'll spend almost all of your time.
+
+This is where you'll write:
+
+- TeleOp programs
+- Autonomous programs
+- Subsystems
+- Commands
+- Utility classes
+- Robot configuration code
+
+Think of TeamCode as **your team's workspace**.
+
+Inside TeamCode, you'll find:
+
+```text
+TeamCode/
+└── src/
+    └── main/
+        ├── java/
+        └── res/
+```
+
+### `java`
+
+The `java` folder contains all of your robot code.
+
+Inside, you'll eventually create packages to organize your project.
+
+For example:
+
+```text
+java/
+└── org.firstinspires.ftc.teamcode/
+    ├── opmodes/
+    ├── subsystems/
+    ├── commands/
+    ├── drive/
+    ├── vision/
+    └── util/
+```
+
+Don't worry about creating all of these yet. We'll build this structure throughout the course.
+
+### `res`
+
+The `res` folder contains Android resources such as layouts and images.
+
+Most FTC teams rarely need to modify anything here.
+
+## FtcRobotController
+
+The **FtcRobotController** module contains the official FTC app provided by FIRST.
+
+It includes:
+
+- The Robot Controller app
+- SDK infrastructure
+- Sample OpModes
+- Internal FTC libraries
+
+Most teams should **avoid modifying files in this module**. Instead, place your own code inside **TeamCode**.
+
+## Gradle Files
+
+You'll also notice several files related to **Gradle**, Android Studio's build system.
+
+Some important ones include:
+
+- `build.gradle`
+- `settings.gradle`
+- `gradle.properties`
+
+These files tell Android Studio how to build your project and manage dependencies.
+
+Most of the time, you won't need to edit them unless you're adding a library or changing project settings.
+
+## External Libraries
+
+As your robot becomes more advanced, you'll likely add external libraries such as Road Runner or FTCLib.
+
+These libraries are downloaded automatically by Gradle and become available throughout your project.
+
+We'll cover how to add libraries in a later lesson.
+
+## Which Files Should I Edit?
+
+When you're just starting out, you'll mainly work inside:
+
+```text
+TeamCode/
+└── src/
+    └── main/
+        └── java/
+            └── org.firstinspires.ftc.teamcode/
+```
+
+Everything else can generally be left alone unless you know exactly why you're changing it.
+
+## What to do next
+
+Continue to [Robot Configuration](/docs/start-here/robot-config) to give your hardware the names your code will use.

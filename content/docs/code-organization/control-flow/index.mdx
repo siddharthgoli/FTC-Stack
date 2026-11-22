@@ -1,0 +1,70 @@
+---
+title: How Programs Make Decisions
+description: Learn how robots use control flow to decide what actions to take.
+seoTitle: FTC Programming Control Flow
+---
+
+A robot is constantly making decisions.
+
+At every moment, the code needs to answer:
+
+> What should the robot do right now?
+
+A simple way to think about robot programming is:
+
+```
+
+Input → Decision → Action
+
+```
+
+For example:
+
+```
+
+Gamepad input
+↓
+Should the intake run?
+↓
+Turn the intake motor on
+
+```
+
+As robots become more complex, the number of decisions grows. A competition robot may need to handle:
+
+- Driver controls
+- Sensors
+- Autonomous routines
+- Motor control
+- Safety conditions
+- Multiple actions happening at once
+
+Early programs often use simple sequences:
+
+```
+
+Drive forward
+Turn
+Shoot
+Park
+
+```
+
+However, real robots cannot always follow a fixed list of instructions. They need to react to changing conditions.
+
+This is where **control flow** becomes important.
+
+Control flow describes how a program decides:
+
+- What code should run
+- When it should run
+- How the robot should transition between actions
+
+In FTC programming, the most important control flow concepts are:
+
+- [Sequential programming](/docs/code-organization/control-flow/sequential-programming)
+- [State machines](/docs/code-organization/control-flow/state-machines)
+- [Command-based programming](/docs/code-organization/control-flow/command-based)
+- Event-driven programming
+
+These ideas allow you to move from writing simple scripts to designing reliable competition code.

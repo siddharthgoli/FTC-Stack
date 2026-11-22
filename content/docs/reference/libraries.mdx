@@ -8,8 +8,6 @@ seoTitle: FTC Programming Libraries
 
 While the FTC SDK provides everything needed to program a robot, many teams use additional libraries and tools to simplify development, improve code organization, and build more advanced autonomous routines. Below are some of the most popular options in the FTC community.
 
----
-
 ## Motion Planning
 
 ### Road Runner
@@ -20,8 +18,6 @@ Road Runner is one of the most widely used autonomous libraries in FTC. It provi
 
 Road Runner is ideal for teams that want highly accurate autonomous routines and are willing to spend time tuning their robot.
 
----
-
 ### Pedro Pathing
 
 **Website:** https://pedropathing.com/
@@ -30,27 +26,21 @@ Pedro Pathing is a modern path-following library that has become increasingly po
 
 Many teams choose Pedro Pathing because it requires less tuning than traditional trajectory libraries while still providing excellent autonomous performance.
 
----
-
 ### MeepMeep
 
 **Website:** https://github.com/acmerobotics/MeepMeep
 
 MeepMeep is a desktop simulator for visualizing Road Runner trajectories before running them on a physical robot. It allows teams to design and test autonomous paths quickly without deploying code.
 
----
-
 ## Control Flow
 
 ### FTCLib
 
-**Website:** https://docs.ftclib.org/ftclib/command-base/command-system/
+**Website:** https://github.com/FTCLib/FTCLib-Docs/blob/v2.1.0/command-base/command-system/command.md
 
 FTCLib is one of the most widely used robotics frameworks for FTC. Its command-based architecture, inspired by WPILib, helps teams organize robot actions into reusable commands and subsystems.
 
-> **Note:** FTCLib's documentation may not work, but the library remains available on GitHub. See Solverslib Docs.
-
----
+The link above opens FTCLib’s archived command documentation. The [FTCLib source and releases](https://github.com/FTCLib/FTCLib) are also available on GitHub.
 
 ### Mercurial
 
@@ -58,23 +48,17 @@ FTCLib is one of the most widely used robotics frameworks for FTC. Its command-b
 
 Mercurial is a command-based framework for FTC focused on simplifying robot code while providing a flexible system for commands, subsystems, and scheduling.
 
----
-
 ### SolversLib
 
 **Website:** https://docs.seattlesolvers.com/command-base/command-system
 
 SolversLib is a successor to FTCLib developed by Seattle Solvers. It provides a command-based architecture along with utilities for building organized and reusable FTC code.
 
----
-
 ### NextFTC
 
-**Website:** https://nextftc.dev/nextftc/
+**Website:** https://nextftc.dev/introduction/
 
 NextFTC is a modern command-based framework for FTC. It provides commands, subsystems, components, and hardware utilities designed to make FTC code easier to organize and maintain.
-
----
 
 ### Ivy
 
@@ -92,25 +76,19 @@ FTC Dashboard is one of the most useful development tools available. It provides
 
 Nearly every advanced FTC team uses FTC Dashboard.
 
----
-
 ### Panels
 
-**Website:** https://github.com/ftcontrol/panels
+**Website:** https://panels.bylazar.com/
 
 Panels is a modern telemetry dashboard featuring live visualization, replay capabilities, robot configuration tools, and additional debugging features.
-
----
 
 ## Vision
 
 ### VisionPortal
 
-**Website:** https://ftc-docs.firstinspires.org/apriltag/vision_portal/visionportal_overview/visionportal-overview.html
+**Website:** https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/visionportal_overview/visionportal-overview.html
 
 VisionPortal is the FTC SDK's built-in framework for working with cameras and vision processors. It provides a standardized way to stream camera data and run processors such as AprilTag and Color Detection.
-
----
 
 ### EasyOpenCV
 
@@ -118,4 +96,10 @@ VisionPortal is the FTC SDK's built-in framework for working with cameras and vi
 
 EasyOpenCV simplifies using OpenCV within FTC robots. It provides an easy-to-use framework for building custom image processing pipelines.
 
----
+## Miscellaneous
+
+### Marrow
+
+**Website:** https://marrow.skeletonarmyftc.com/
+
+Marrow is an open-source FTC library from Skeleton Army (Team 23644) for building robot behaviors that respond to changes on the field. It works alongside command-based libraries and path followers.

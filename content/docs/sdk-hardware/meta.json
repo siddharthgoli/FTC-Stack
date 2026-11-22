@@ -1,0 +1,9 @@
+{
+    "title": "FTC SDK & Hardware",
+    "pages": [
+        "devices",
+        "gamepads",
+        "telemetry",
+        "timing"
+    ]
+}

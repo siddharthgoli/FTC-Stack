@@ -1,6 +1,0 @@
-{
-    "pages": ["sequential-programming", "state-machines", "command-based"],
-    "root": false,
-    "title": "Control Flow",
-    "description": "Master the control paradigms"
-}

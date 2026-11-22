@@ -1,6 +1,0 @@
-{
-    "pages": ["pid-movement", "localization", "localization-methods", "pathing"],
-    "root": false,
-    "title": "Autonomous",
-    "description": "Autonomous"
-}

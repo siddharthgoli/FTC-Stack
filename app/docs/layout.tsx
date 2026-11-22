@@ -1,18 +1,18 @@
+import { ChatCircleIcon } from "@phosphor-icons/react/ssr";
 import { source } from "@/lib/source";
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import { DocsLayoutWithSidebar } from "@/components/docs-sidebar";
 import { baseOptions } from "@/app/layout.shared";
 import {
     AISearch,
     AISearchPanel,
     AISearchTrigger,
 } from "@/components/ai/search";
-import { MessageCircleIcon } from "lucide-react";
 import { cn } from "cnfast";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 
 export default function Layout({ children }: LayoutProps<"/docs">) {
     return (
-        <DocsLayout tree={source.pageTree} {...baseOptions()}>
+        <DocsLayoutWithSidebar tree={source.pageTree} {...baseOptions()}>
             <AISearch>
                 <AISearchPanel />
                 <AISearchTrigger
@@ -24,11 +24,11 @@ export default function Layout({ children }: LayoutProps<"/docs">) {
                         }),
                     )}
                 >
-                    <MessageCircleIcon className="size-4.5" />
+                    <ChatCircleIcon aria-hidden="true" className="size-4.5" />
                     Ask AI
                 </AISearchTrigger>
             </AISearch>
             {children}
-        </DocsLayout>
+        </DocsLayoutWithSidebar>
     );
 }

@@ -1,0 +1,69 @@
+.backdrop::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+    content: "";
+    background-image:
+        linear-gradient(to right, var(--color-fd-border) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--color-fd-border) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.45;
+}
+
+[data-home-layout].backdrop::before {
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 12rem), transparent calc(100% - 4rem));
+}
+
+.homeFooter {
+    padding-block: clamp(0.75rem, 2dvh, 1.5rem);
+}
+
+.curriculum {
+    --curriculum-inset: 1.25rem;
+    --curriculum-card-inset: 1rem;
+    padding: var(--curriculum-inset);
+    border-radius: calc(var(--radius-2xl) + var(--curriculum-inset));
+}
+
+.curriculumCard {
+    padding: var(--curriculum-card-inset);
+    border-radius: var(--radius-2xl);
+}
+
+.curriculumIcon {
+    border-radius: max(0px, calc(var(--radius-2xl) - var(--curriculum-card-inset)));
+}
+
+@media (min-width: 40rem) {
+    .curriculum {
+        --curriculum-inset: 1.5rem;
+    }
+}
+
+@media (min-width: 64rem) {
+    .curriculum {
+        --curriculum-inset: clamp(1.25rem, 2.5dvh, 1.75rem);
+        --curriculum-card-inset: clamp(0.625rem, 1.4dvh, 1rem);
+    }
+}
+
+@media (min-width: 64rem) and (max-height: 58rem) {
+    .homeGuides {
+        --guide-inset: 1rem;
+    }
+
+    .cardHeading {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 0.5rem;
+    }
+
+    .cardTitle {
+        grid-area: 1 / 2;
+        margin-top: 0;
+    }
+
+    .cardArrow {
+        grid-area: 1 / 3;
+    }
+}

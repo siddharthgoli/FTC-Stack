@@ -1,0 +1,104 @@
+---
+title: Telemetry
+description: Display information from your robot while running code.
+seoTitle: FTC Telemetry
+---
+
+Telemetry allows your robot to send information back to the Driver Station.
+
+It is one of the most useful debugging tools in FTC.
+
+You can use telemetry to view:
+
+- Sensor values
+- Motor power
+- Encoder positions
+- Robot states
+- Variable values
+
+## addData()
+
+`addData()` displays a value with a label.
+
+```java
+telemetry.addData("Power", motorPower);
+```
+
+Example output:
+
+```
+Power: 0.75
+```
+
+You can display multiple values:
+
+```java
+telemetry.addData("Left Motor", leftPower);
+telemetry.addData("Right Motor", rightPower);
+```
+
+## addLine()
+
+`addLine()` displays plain text.
+
+```java
+telemetry.addLine("Robot Ready");
+```
+
+## update()
+
+Telemetry does not appear immediately.
+
+You must call `update()` to send the data.
+
+```java
+telemetry.update();
+```
+
+Example:
+
+```java
+telemetry.addData("Position", encoderPosition);
+telemetry.update();
+```
+
+## Debugging with Telemetry
+
+Telemetry is useful for finding problems.
+
+Example:
+
+```java
+telemetry.addData("Joystick", gamepad1.left_stick_y);
+telemetry.addData("Motor Power", motor.getPower());
+telemetry.update();
+```
+
+This helps you check if:
+
+- Inputs are being read
+- Motors are receiving power
+- Sensors are returning values
+
+## Displaying Robot States
+
+Telemetry is commonly used with state machines.
+
+```java
+telemetry.addData("State", currentState);
+telemetry.update();
+```
+
+Example:
+
+```
+State: INTAKING
+```
+
+## Key Takeaways
+
+- Telemetry displays information on the Driver Station.
+- Use `addData()` for values.
+- Use `addLine()` for messages.
+- Always call `update()`.
+- Telemetry is essential for debugging.

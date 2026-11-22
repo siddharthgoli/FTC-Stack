@@ -1,17 +1,20 @@
 {
     "pages": [
-        "index",
-        "---Learn---",
-        "...learn",
-        "---Program---",
-        "...program",
-        "---Control Theory---",
-        "...control-theory",
+        "---Start Here---",
+        "...start-here",
+        "---FTC SDK & Hardware---",
+        "...sdk-hardware",
+        "---TeleOp---",
+        "...teleop",
+        "---Autonomous---",
+        "...autonomous",
         "---Vision---",
         "...vision",
+        "---Code Organization & Tools---",
+        "...code-organization",
         "---Reference---",
         "...reference",
-        "---About---",
+        "---",
         "about"
     ],
     "root": true

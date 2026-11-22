@@ -1,12 +1,12 @@
 import { RootProvider } from "fumadocs-ui/provider/next";
 import "./global.css";
-import { JetBrains_Mono, Manrope } from "next/font/google";
+import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Metadata } from "next";
-import { appName, logoSrc } from "@/app/layout.shared";
+import { appDescription, appName, homeSocialImage, logoSrc, socialImageSize } from "@/app/layout.shared";
 import Script from "next/script";
 
-const manrope = Manrope({
+const plexSans = IBM_Plex_Sans({
     subsets: ["latin"],
     variable: "--font-sans",
 });
@@ -21,39 +21,31 @@ const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
 export const metadata: Metadata = {
     metadataBase: new URL("https://www.ftcstack.com"),
     title: appName,
-    description: "A practical programming curriculum for teams that want to move beyond getting a robot to work and start building software that can compete.",
+    description: appDescription,
     icons: {
         icon: logoSrc,
     },
     openGraph: {
         title: appName,
-        description: "A practical programming curriculum for teams that want to move beyond getting a robot to work and start building software that can compete.",
+        description: appDescription,
         url: "https://www.ftcstack.com",
         siteName: appName,
         type: "website",
-        // images: [
-        //     {
-        //         url: "/og-image.png",
-        //         width: 1200,
-        //         height: 630,
-        //         alt: appName,
-        //     },
-        // ],
+        images: [{ url: homeSocialImage, ...socialImageSize, alt: appName }],
     },
-    // twitter: {
-    //     card: "summary_large_image",
-    //     title: appName,
-    //     description:
-    //         "A practical programming curriculum for teams that want to move beyond getting a robot to work and start building software that can compete.",
-    //     images: ["/og-image.png"],
-    // },
+    twitter: {
+        card: "summary_large_image",
+        title: appName,
+        description: appDescription,
+        images: [homeSocialImage],
+    },
 };
 
 export default function Layout({ children }: LayoutProps<"/">) {
     return (
         <html
             lang="en"
-            className={`${manrope.variable} ${jetbrainsMono.variable}`}
+            className={`${plexSans.variable} ${jetbrainsMono.variable}`}
             suppressHydrationWarning
         >
             <body className="flex flex-col min-h-screen">

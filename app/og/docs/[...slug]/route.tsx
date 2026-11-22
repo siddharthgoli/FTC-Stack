@@ -1,28 +1,35 @@
-import { getPageImage, source } from '@/lib/source';
-import { notFound } from 'next/navigation';
-import { ImageResponse } from 'next/og';
-import { generate as DefaultImage } from 'fumadocs-ui/og';
-import { appName } from '@/app/layout.shared';
+import { notFound } from "next/navigation";
+import { getPageImage, source } from "@/lib/source";
+import { renderSocialImage } from "@/lib/social-image";
 
 export const revalidate = false;
 
-export async function GET(_req: Request, { params }: RouteContext<'/og/docs/[...slug]'>) {
-  const { slug } = await params;
-  const page = source.getPage(slug.slice(0, -1));
-  if (!page) notFound();
+const sectionNames: Record<string, string> = {
+    "start-here": "Start Here",
+    "sdk-hardware": "FTC SDK & Hardware",
+    teleop: "TeleOp",
+    autonomous: "Autonomous",
+    vision: "Vision",
+    "code-organization": "Code Organization & Tools",
+    reference: "Reference",
+    about: "About",
+};
 
-  return new ImageResponse(
-    <DefaultImage title={page.data.title} description={page.data.description} site={appName} />,
-    {
-      width: 1200,
-      height: 630,
-    },
-  );
+export async function GET(_request: Request, { params }: RouteContext<"/og/docs/[...slug]">) {
+    const { slug } = await params;
+    if (slug.at(-1) !== "image.png") notFound();
+
+    const page = source.getPage(slug.slice(0, -1));
+    if (!page) notFound();
+
+    return renderSocialImage({
+        title: page.data.title,
+        section: sectionNames[page.slugs[0]] ?? "Documentation",
+    });
 }
 
 export function generateStaticParams() {
-  return source.getPages().map((page) => ({
-    lang: page.locale,
-    slug: getPageImage(page).segments,
-  }));
+    return source.getPages().map((page) => ({
+        slug: getPageImage(page).segments,
+    }));
 }

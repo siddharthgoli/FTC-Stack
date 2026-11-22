@@ -1,0 +1,9 @@
+{
+    "title": "TeleOp",
+    "pages": [
+        "tank",
+        "arcade",
+        "mecanum",
+        "adv-gamepads"
+    ]
+}

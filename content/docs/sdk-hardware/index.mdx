@@ -1,0 +1,82 @@
+---
+title: FTC SDK Basics
+description: Learn the fundamentals of programming an FTC robot using the FTC SDK.
+seoTitle: FTC SDK Programming Basics
+---
+
+The FTC SDK provides the tools needed to communicate with your robot hardware and create programs that run on the Control Hub.
+
+Before building advanced systems like subsystems, autonomous routines, or command-based architectures, it is important to understand the basic components of an FTC program.
+
+In this section, you will learn how to:
+
+- Create and run OpModes
+- Control robot hardware
+- Read driver input
+- Debug programs using telemetry
+- Work with motors, servos, and sensors
+- Understand timing and robot configuration
+
+## What is the FTC SDK?
+
+The FTC SDK is a collection of Java libraries that allow your code to interact with the robot.
+
+Instead of directly controlling hardware, your code uses the SDK to communicate with:
+
+- Motors
+- Servos
+- Sensors
+- Gamepads
+- Hubs
+
+Example:
+
+```java
+motor.setPower(1.0);
+```
+
+The SDK converts this command into instructions for the physical motor.
+
+## How FTC Programs Work
+
+Most FTC programs follow this general flow:
+
+```
+Initialize Hardware
+        ↓
+Wait for Start
+        ↓
+Read Inputs
+        ↓
+Run Robot Logic
+        ↓
+Control Hardware
+        ↓
+Repeat
+```
+
+During a match, your code continuously reads information from the robot and makes decisions.
+
+## Before You Start
+
+You should already understand basic Java concepts such as:
+
+- Variables
+- Conditionals
+- Loops
+- Methods
+- Classes and objects
+
+If you need a refresher, review the [Java section](/docs/start-here/java-fundamentals) first.
+
+## Set up your robot
+
+Work through [Start Here](/docs/start-here) for project structure, robot configuration, and your first OpMode.
+
+## Look up SDK features
+
+- **Devices** · [HardwareMap](/docs/sdk-hardware/devices/hardwaremap), [Motors](/docs/sdk-hardware/devices/motors), [Servos](/docs/sdk-hardware/devices/servos), [Lynx Modules](/docs/sdk-hardware/devices/lynx-modules), and [Sensors](/docs/sdk-hardware/devices/sensors).
+- **Driver input and debugging** · [Gamepads](/docs/sdk-hardware/gamepads) and [Telemetry](/docs/sdk-hardware/telemetry).
+- **Timing** · [Timing](/docs/sdk-hardware/timing) covers delays, actions, and sequences.
+
+Once you can run an OpMode, try [writing TeleOp](/docs/teleop) or [building autonomous](/docs/autonomous).

@@ -13,13 +13,12 @@ import {
 } from "react";
 import { flushSync } from "react-dom";
 import {
-    Loader2,
-    MessageCircleIcon,
-    RefreshCw,
-    SearchIcon,
-    Send,
-    X,
-} from "lucide-react";
+    ArrowClockwiseIcon,
+    ChatCircleIcon,
+    CircleNotchIcon,
+    PaperPlaneTiltIcon,
+    XIcon,
+} from "@phosphor-icons/react/ssr";
 import { cn } from "cnfast";
 import { buttonVariants } from "../ui/button";
 import { useChat, type UseChatHelpers } from "@ai-sdk/react";
@@ -76,12 +75,12 @@ export function AISearchPanelHeader({
                     buttonVariants({
                         size: "icon-sm",
                         color: "ghost",
-                        className: "text-fd-muted-foreground rounded-full",
+                        className: "m-1 rounded-md text-fd-muted-foreground",
                     }),
                 )}
                 onClick={() => setOpen(false)}
             >
-                <X />
+                <XIcon aria-hidden="true" />
             </button>
         </div>
     );
@@ -102,12 +101,12 @@ export function AISearchInputActions() {
                         buttonVariants({
                             color: "secondary",
                             size: "sm",
-                            className: "rounded-full gap-1.5",
+                            className: "rounded-md gap-1.5",
                         }),
                     )}
                     onClick={() => regenerate()}
                 >
-                    <RefreshCw className="size-4" />
+                    <ArrowClockwiseIcon aria-hidden="true" className="size-4" />
                     Retry
                 </button>
             )}
@@ -117,7 +116,7 @@ export function AISearchInputActions() {
                     buttonVariants({
                         color: "secondary",
                         size: "sm",
-                        className: "rounded-full",
+                        className: "rounded-md",
                     }),
                 )}
                 onClick={() => setMessages([])}
@@ -194,12 +193,12 @@ export function AISearchInput(props: ComponentProps<"form">) {
                     className={cn(
                         buttonVariants({
                             color: "secondary",
-                            className: "transition-all rounded-full mt-2 gap-2",
+                            className: "transition-all rounded-[max(0px,calc(var(--radius-lg)-0.5rem))] mt-2 gap-2",
                         }),
                     )}
                     onClick={stop}
                 >
-                    <Loader2 className="size-4 animate-spin text-fd-muted-foreground" />
+                    <CircleNotchIcon aria-hidden="true" className="size-4 animate-spin" />
                     Abort Answer
                 </button>
             ) : (
@@ -209,12 +208,13 @@ export function AISearchInput(props: ComponentProps<"form">) {
                     className={cn(
                         buttonVariants({
                             color: "primary",
-                            className: "transition-all rounded-full mt-2",
+                            className: "transition-all rounded-[max(0px,calc(var(--radius-lg)-0.5rem))] mt-2",
                         }),
                     )}
+                    aria-label="Send"
                     disabled={input.length === 0}
                 >
-                    <Send className="size-4" />
+                    <PaperPlaneTiltIcon aria-hidden="true" className="size-4" />
                 </button>
             )}
         </form>
@@ -367,7 +367,6 @@ function Message({
             {/*            key={call.toolCallId}*/}
             {/*            className="flex flex-row gap-2 items-center mt-3 rounded-lg border bg-fd-secondary text-fd-muted-foreground text-xs p-2"*/}
             {/*        >*/}
-            {/*            <SearchIcon className="size-4" />*/}
             {/*            {call.state === "output-error" ||*/}
             {/*            call.state === "output-denied" ? (*/}
             {/*                <p className="text-fd-error">*/}
@@ -459,7 +458,7 @@ export function AISearchPanel() {
             {actualOpen && (
                 <div
                     className={cn(
-                        "fixed inset-0 z-30 backdrop-blur-xs bg-fd-overlay lg:hidden",
+                        "fixed inset-0 z-30 bg-fd-overlay lg:hidden",
                         open ? "animate-fd-fade-in" : "animate-fd-fade-out",
                     )}
                     onClick={() => setOpen(false)}
@@ -472,7 +471,7 @@ export function AISearchPanel() {
                 <div
                     className={cn(
                         "overflow-hidden z-30 bg-fd-card text-fd-card-foreground [--ai-chat-width:400px] 2xl:[--ai-chat-width:460px]",
-                        "max-lg:fixed max-lg:inset-x-2 max-lg:inset-y-4 max-lg:border max-lg:rounded-2xl max-lg:shadow-xl",
+                        "max-lg:fixed max-lg:inset-x-2 max-lg:inset-y-4 max-lg:border max-lg:rounded-[calc(var(--radius-lg)+0.75rem)] max-lg:shadow-xl",
                         "lg:sticky lg:top-0 lg:h-dvh lg:border-s lg:ms-auto lg:in-[#nd-docs-layout]:[grid-area:toc] lg:in-[#nd-notebook-layout]:row-span-full lg:in-[#nd-notebook-layout]:col-start-5",
                         open
                             ? "animate-fd-dialog-in lg:animate-[ask-ai-open_200ms]"
@@ -482,10 +481,10 @@ export function AISearchPanel() {
                         if (!open) flushSync(() => setActualOpen(false));
                     }}
                 >
-                    <div className="flex flex-col size-full p-2 lg:p-3 lg:w-(--ai-chat-width)">
-                        <AISearchPanelHeader />
+                    <div className="flex size-full flex-col p-3 lg:w-(--ai-chat-width) lg:p-4">
+                        <AISearchPanelHeader className="rounded-lg" />
                         <AISearchPanelList className="flex-1" />
-                        <div className="rounded-xl border bg-fd-secondary text-fd-secondary-foreground shadow-sm has-focus-visible:shadow-md">
+                        <div className="rounded-lg border bg-fd-secondary text-fd-secondary-foreground shadow-sm has-focus-visible:shadow-md">
                             <AISearchInput />
                             <div className="flex items-center gap-1.5 p-1 empty:hidden">
                                 <AISearchInputActions />
@@ -518,7 +517,7 @@ export function AISearchPanelList({
         >
             {messages.length === 0 ? (
                 <div className="text-sm text-fd-muted-foreground/80 size-full flex flex-col items-center justify-center text-center gap-2">
-                    <MessageCircleIcon fill="currentColor" stroke="none" />
+                    <ChatCircleIcon aria-hidden="true" weight="fill" />
                     <p onClick={(e) => e.stopPropagation()}>
                         Start a new chat below.
                     </p>

@@ -1,6 +1,0 @@
-{
-    "pages": ["imu", "distance", "color"],
-    "root": false,
-    "title": "Sensors",
-    "description": "What they are and how to use them"
-}

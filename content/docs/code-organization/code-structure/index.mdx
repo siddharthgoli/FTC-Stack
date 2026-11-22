@@ -1,0 +1,43 @@
+---
+title: Why Code Structure?
+description: Learn how architecture improves maintainability, testing, and collaboration.
+seoTitle: FTC Robot Code Structure
+---
+
+As FTC robots become more advanced, the code controlling them becomes more complex. A simple robot may only need a few motors and servos, but competitive robots often include multiple mechanisms, sensors, autonomous routines, and tuning systems.
+
+Without a proper structure, code quickly becomes difficult to understand and modify.
+
+A common beginner approach is putting everything inside an OpMode:
+
+```java
+public class TeleOp extends OpMode {
+
+    public void loop() {
+        driveMotors();
+        controlIntake();
+        controlShooter();
+        updateSensors();
+    }
+}
+```
+
+This works at first, but creates problems as the robot grows:
+
+- Hardware initialization is mixed with robot logic
+- Mechanisms become dependent on each other
+- Debugging becomes harder
+- Multiple people cannot easily work on different parts of the code
+
+A competitive codebase separates the robot into smaller, independent components.
+
+Each part has a specific responsibility:
+
+| Component   | Responsibility                         |
+| ----------- | -------------------------------------- |
+| [Robot Class](/docs/code-organization/code-structure/robot-class) | Connects all robot components          |
+| [Subsystems](/docs/code-organization/code-structure/subsystems)  | Control individual mechanisms          |
+| [Constants](/docs/code-organization/code-structure/constants)   | Stores tuning values and configuration |
+| [OpModes](/docs/start-here/opmodes)     | Runs robot programs                    |
+
+Good code structure allows teams to make changes faster, test components independently, and build more reliable robots.

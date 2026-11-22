@@ -1,4 +1,6 @@
 "use client";
+
+import { ArrowBendDownRightIcon, ThumbsDownIcon, ThumbsUpIcon } from "@phosphor-icons/react/ssr";
 import { cn } from "../../lib/cn";
 import {
     autoUpdate,
@@ -8,7 +10,6 @@ import {
     useFloating,
 } from "@floating-ui/react-dom";
 import { buttonVariants } from "../ui/button";
-import { CornerDownRightIcon, ThumbsDown, ThumbsUp } from "lucide-react";
 import {
     type HTMLAttributes,
     type ReactNode,
@@ -35,15 +36,20 @@ import { z } from "zod/mini";
 import { usePathname } from "fumadocs-core/framework";
 
 const rateButtonVariants = cva(
-    "inline-flex items-center justify-center rounded-full border px-3 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed",
+    "inline-flex items-center justify-center rounded-lg border px-3 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed",
     {
         variants: {
             active: {
-                true: "border-fd-primary bg-fd-primary text-fd-primary-foreground",
-                false: "border-fd-border/70 text-fd-muted-foreground hover:border-fd-primary/40 hover:text-fd-foreground",
+                true: "border-fd-primary/40 bg-fd-primary text-fd-primary-foreground",
+                false: "border-fd-border text-fd-muted-foreground hover:border-fd-primary/40 hover:text-fd-foreground",
             },
         },
     },
+);
+
+const submitAgainClassName = cn(
+    buttonVariants({ color: "outline" }),
+    "min-h-9 rounded-lg px-3 text-fd-primary",
 );
 
 const pageFeedbackResult = z.extend(pageFeedback, {
@@ -161,7 +167,7 @@ export function Feedback({
                     setSubmitError(null);
                 }
             }}
-            className="rounded-lg border border-fd-border/60 bg-fd-card/60 p-3"
+            className="rounded-[calc(var(--radius-lg)+0.75rem)] border border-fd-border bg-fd-card p-3"
         >
             <div className="flex flex-col gap-2">
                 <p className="text-center text-sm font-medium text-fd-foreground">
@@ -194,7 +200,7 @@ export function Feedback({
                             saveFeedback(createFeedback(nextOpinion));
                         }}
                     >
-                        <ThumbsUp className="size-4" />
+                        <ThumbsUpIcon aria-hidden="true" className="size-4" />
                     </button>
                     <button
                         type="button"
@@ -223,21 +229,17 @@ export function Feedback({
                             saveFeedback(createFeedback(nextOpinion));
                         }}
                     >
-                        <ThumbsDown className="size-4" />
+                        <ThumbsDownIcon aria-hidden="true" className="size-4" />
                     </button>
                 </div>
             </div>
             <CollapsibleContent className="mt-3">
                 {previous ? (
-                    <div className="flex flex-col items-start gap-3 rounded-lg border border-fd-border/60 bg-fd-background/70 px-3 py-4 text-sm text-fd-muted-foreground">
-                        <p>Thank you for your feedback!</p>
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-fd-border pt-3 text-sm text-fd-foreground">
+                        <p>Thank you!</p>
                         <button
-                            className={cn(
-                                buttonVariants({
-                                    color: "secondary",
-                                }),
-                                "text-xs",
-                            )}
+                            type="button"
+                            className={submitAgainClassName}
                             onClick={() => {
                                 setOpinion(previous.opinion);
                                 setFeedbackId(previous.response.feedbackId);
@@ -299,7 +301,7 @@ export function Feedback({
                                 }
                                 inputMode="numeric"
                                 pattern="[0-9]*"
-                                className="rounded-lg border border-fd-border/60 bg-fd-background/70 px-3 py-2 text-sm text-fd-foreground focus-visible:outline-none placeholder:text-fd-muted-foreground"
+                                className="rounded-lg border border-fd-border bg-fd-background px-3 py-2 text-sm text-fd-foreground focus-visible:outline-none placeholder:text-fd-muted-foreground"
                                 placeholder="e.g. 14481"
                             />
                         </label>
@@ -310,7 +312,7 @@ export function Feedback({
                                 autoFocus
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
-                                className="min-h-24 rounded-lg border border-fd-border/60 bg-fd-background/70 p-3 text-sm text-fd-foreground resize-none focus-visible:outline-none placeholder:text-fd-muted-foreground"
+                                className="min-h-24 rounded-lg border border-fd-border bg-fd-background p-3 text-sm text-fd-foreground resize-none focus-visible:outline-none placeholder:text-fd-muted-foreground"
                                 placeholder="Tell us more..."
                                 onKeyDown={(e) => {
                                     if (!e.shiftKey && e.key === "Enter") {
@@ -330,10 +332,11 @@ export function Feedback({
                             type="submit"
                             className={cn(
                                 buttonVariants({ color: "outline" }),
-                                "w-fit px-3",
+                                "min-h-10 w-fit gap-2 rounded-lg px-4",
                             )}
                             disabled={isPending}
                         >
+                            <ArrowBendDownRightIcon aria-hidden="true" className="size-4 shrink-0" />
                             Submit
                         </button>
                     </form>
@@ -492,7 +495,7 @@ export function FeedbackText({ onSendAction, children }: FeedbackTextProps) {
                 <div
                     ref={refs.setFloating}
                     className={cn(
-                        "not-prose z-40 text-sm bg-fd-popover text-fd-popover-foreground border overflow-hidden shadow-lg rounded-xl w-30 h-9.5 box-content transition-[width,height]",
+                        "not-prose z-40 text-sm bg-fd-popover text-fd-popover-foreground border overflow-hidden shadow-lg rounded-2xl w-30 h-9.5 box-content transition-[width,height]",
                         popup.mode === "expanded"
                             ? "w-75 h-32 max-w-[98vw]"
                             : "select-none",
@@ -507,11 +510,11 @@ export function FeedbackText({ onSendAction, children }: FeedbackTextProps) {
                                         variant: "ghost",
                                         size: "sm",
                                     }),
-                                    "size-full gap-1.5",
+                                    "size-full gap-1.5 rounded-xl",
                                 )}
                                 onClick={expandPopup}
                             >
-                                <CornerDownRightIcon className="size-4 text-fd-muted-foreground" />
+                                <ArrowBendDownRightIcon aria-hidden="true" className="size-4 text-fd-muted-foreground" />
                                 Feedback
                             </button>
                         </div>
@@ -587,15 +590,11 @@ function FeedbackTextForm({
                     container.className,
                 )}
             >
-                <p>Thank you for your feedback!</p>
+                <p>Thank you!</p>
                 <div className="flex flex-row items-center gap-2">
                     <button
-                        className={cn(
-                            buttonVariants({
-                                color: "secondary",
-                            }),
-                            "text-xs",
-                        )}
+                        type="button"
+                        className={submitAgainClassName}
                         onClick={() => {
                             setPrevious(null);
                         }}
@@ -630,18 +629,17 @@ function FeedbackTextForm({
                     type="submit"
                     className={cn(
                         buttonVariants({ variant: "primary", size: "sm" }),
-                        "gap-1.5",
+                        "gap-1.5 rounded-lg",
                     )}
                     disabled={isPending}
                 >
-                    <CornerDownRightIcon className="size-4" />
                     Submit
                 </button>
                 <button
                     type="button"
                     className={cn(
                         buttonVariants({ variant: "secondary", size: "sm" }),
-                        "gap-1.5",
+                        "gap-1.5 rounded-lg",
                     )}
                     disabled={isPending}
                     onClick={onClose}

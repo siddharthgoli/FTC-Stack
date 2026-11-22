@@ -1,0 +1,61 @@
+---
+title: Hardware Abstraction
+description: Why separating robot hardware from robot logic and makes code easier to manage.
+seoTitle: FTC Hardware Abstraction
+---
+
+Hardware abstraction is the process of separating the physical robot hardware from the code that controls it.
+
+Instead of every part of the code directly controlling motors and servos, hardware is organized behind higher-level interfaces.
+
+## The Problem
+
+A beginner codebase often looks like this:
+
+```java
+motor.setPower(1);
+servo.setPosition(0.5);
+```
+
+These commands directly interact with hardware. As more mechanisms are added, the same hardware may be accessed from many different files.
+
+This creates problems:
+
+- Hardware details are spread throughout the code
+- Changing hardware requires changing many files
+- Testing individual mechanisms becomes difficult
+
+## The Solution
+
+With hardware abstraction, code interacts with robot components instead of individual devices.
+
+Instead of:
+
+```java
+flywheelMotor.setVelocity(3500);
+hoodServo.setPosition(0.3);
+```
+
+You can write:
+
+```java
+shooter.shoot();
+```
+
+The subsystem handles the details of how the shooter works.
+
+## Benefits
+
+### Easier Hardware Changes
+
+If a motor is replaced, only the subsystem needs to change.
+
+### Cleaner Code
+
+OpModes describe what the robot should do rather than how every motor should move.
+
+### Better Testing
+
+Individual mechanisms can be tested independently.
+
+Hardware abstraction is the foundation that allows the rest of the robot architecture to work.

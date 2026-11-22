@@ -1,6 +1,0 @@
-{
-    "pages": ["hardware-abstraction", "subsystems", "robot-class", "constants"],
-    "root": false,
-    "title": "Code Structure",
-    "description": "Make maintainable code"
-}

@@ -1,0 +1,10 @@
+{
+    "title": "Devices",
+    "pages": [
+        "hardwaremap",
+        "motors",
+        "servos",
+        "lynx-modules",
+        "sensors"
+    ]
+}

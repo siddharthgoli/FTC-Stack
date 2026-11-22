@@ -1,6 +1,0 @@
-{
-    "pages": ["tank", "arcade", "mecanum", "adv-gamepads"],
-    "root": false,
-    "title": "TeleOp",
-    "description": "Driver-Controlled"
-}

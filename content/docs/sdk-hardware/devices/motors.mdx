@@ -1,0 +1,183 @@
+---
+title: Motors
+description: Control DC motors using the FTC SDK.
+seoTitle: FTC Motor Programming
+---
+
+DC motors are used for most robot movement and mechanisms.
+
+Examples:
+
+- Drive motors
+- Intake motors
+- Slides
+- Turrets
+- Launchers
+
+## Getting a Motor
+
+Motors are usually stored as `DcMotor` objects.
+
+```java
+DcMotor motor;
+
+motor = hardwareMap.get(DcMotor.class, "motor");
+```
+
+## Motor Power
+
+Motor power controls speed and direction.
+
+Values range from:
+
+```
+-1.0 to 1.0
+```
+
+Example:
+
+```java
+motor.setPower(0.5);
+```
+
+Positive power:
+
+```
+Forward
+```
+
+Negative power:
+
+```
+Reverse
+```
+
+Stop a motor:
+
+```java
+motor.setPower(0);
+```
+
+## Motor Direction
+
+Sometimes motors are mounted in opposite directions.
+
+```java
+motor.setDirection(
+    DcMotor.Direction.REVERSE
+);
+```
+
+The options are:
+
+```java
+DcMotor.Direction.FORWARD
+DcMotor.Direction.REVERSE
+```
+
+## Zero Power Behavior
+
+Controls what happens when power becomes zero.
+
+### Brake
+
+The motor stops quickly.
+
+```java
+motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+```
+
+### Float
+
+The motor slowly coasts.
+
+```java
+motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+```
+
+## Motor Modes
+
+Motor modes control how the motor uses encoders.
+
+### RUN_WITHOUT_ENCODER
+
+Basic motor control.
+
+```java
+motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+```
+
+### RUN_USING_ENCODER
+
+Uses encoder feedback to control speed.
+
+```java
+motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+```
+
+### STOP_AND_RESET_ENCODER
+
+Resets the encoder position.
+
+```java
+motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+```
+
+### RUN_TO_POSITION
+
+Moves to a target encoder position.
+
+```java
+motor.setTargetPosition(1000);
+
+motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+```
+
+## Encoders
+
+Encoders measure motor rotation.
+
+You can read the current position:
+
+```java
+int position = motor.getCurrentPosition();
+```
+
+Encoders are useful for:
+
+- Precise movement
+- Autonomous routines
+- Mechanism control
+
+Although encoders are feedback sensors, FTC programmers usually work with them through motors.
+
+## Common Motor Issues
+
+### Motor Spins Backwards
+
+Fix the direction:
+
+```java
+motor.setDirection(DcMotor.Direction.REVERSE);
+```
+
+### Robot Does Not Move
+
+Check:
+
+- Hardware name
+- Power value
+- Motor connection
+- Battery voltage
+
+### Motors Fight Each Other
+
+Usually caused by incorrect direction settings.
+
+## Key Takeaways
+
+- Motors are controlled with power values.
+- Power ranges from `-1.0` to `1.0`.
+- Zero power behavior controls stopping behavior.
+- Encoders provide position feedback.
+- Motor modes change how motors operate.

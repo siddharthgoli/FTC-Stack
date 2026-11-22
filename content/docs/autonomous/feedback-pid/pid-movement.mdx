@@ -1,0 +1,159 @@
+---
+title: PID Movement
+description: Use encoder feedback and PID controllers to accurately move robot mechanisms during autonomous.
+seoTitle: FTC PID Autonomous Movement
+---
+
+In autonomous, robots often need to move mechanisms to precise positions.
+
+Examples include:
+
+- Moving a lift to a scoring height
+- Raising an arm to a preset angle
+- Extending a slide to a specific distance
+- Rotating a turret to a target position
+
+Simply applying motor power is not enough. A motor running at full power does not know when to stop, and small differences in battery voltage, friction, or load can cause inconsistent movement.
+
+To solve this problem, robots use **closed-loop control**.
+
+A closed-loop system measures the current state of the robot and adjusts its output to reduce error. In FTC, one of the most common examples is using **motor encoders with PID control**.
+
+## Motor Encoders
+
+Most FTC motors include built-in encoders that measure how far the motor shaft has rotated.
+
+An encoder provides information about:
+
+- Current motor position
+- Direction of movement
+- Distance traveled
+
+For example, a motor might report:
+
+```text
+Current Position: 450 ticks
+Target Position: 1000 ticks
+Error: 550 ticks
+```
+
+The controller can use this error to determine how much power should be applied.
+
+Without an encoder, the robot would have no way of knowing whether it reached the desired position.
+
+## Built-In Motor Position Control
+
+The FTC SDK provides a built-in position controller through the `RUN_TO_POSITION` motor mode.
+
+This allows you to move a motor to a specific encoder position without writing your own PID loop.
+
+The basic process is:
+
+1. Set the target position.
+2. Change the motor mode.
+3. Apply power.
+
+Example:
+
+```java
+motor.setTargetPosition(1000);
+
+motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+motor.setPower(1.0);
+```
+
+The motor will automatically move toward position `1000` and stop once it reaches the target.
+
+## Understanding RUN_TO_POSITION
+
+When using `RUN_TO_POSITION`, the motor controller handles the feedback loop for you.
+
+Internally, it repeatedly:
+
+1. Reads the encoder position.
+2. Calculates the distance from the target.
+3. Adjusts motor output.
+4. Stops when the target is reached.
+
+Your code only needs to specify the goal.
+
+For example:
+
+```java
+slideMotor.setTargetPosition(2500);
+slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+slideMotor.setPower(0.8);
+```
+
+The slide will automatically extend until it reaches the desired encoder position.
+
+## Checking When Movement Finishes
+
+Sometimes your autonomous program needs to wait until a mechanism finishes moving.
+
+You can check the motor's state using:
+
+```java
+while (motor.isBusy()) {
+    // Wait until target position is reached
+}
+```
+
+For example:
+
+```java
+motor.setTargetPosition(1500);
+motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+motor.setPower(1.0);
+
+while (motor.isBusy()) {
+    telemetry.addData("Position", motor.getCurrentPosition());
+    telemetry.update();
+}
+```
+
+After the loop ends, the motor has reached its target.
+
+## Limitations of Built-In PID
+
+While `RUN_TO_POSITION` is extremely useful, it is not perfect for every mechanism.
+
+The FTC SDK hides the internal PID constants, meaning you cannot directly tune how aggressively the controller responds.
+
+This can become a problem when you need more precise control.
+
+Examples:
+
+- A heavy arm that needs gravity compensation
+- A flywheel requiring constant velocity control
+- A mechanism requiring smooth acceleration
+- A drivetrain requiring accurate path following
+
+For these cases, teams often write their own PID or PIDF controllers.
+
+## Best Practices
+
+When using encoder-based movement:
+
+- Reset encoders when appropriate.
+- Use consistent units for positions.
+- Test mechanisms individually before autonomous.
+- Avoid relying on timers for important movements.
+- Tune power values to prevent unnecessary overshoot.
+- Use telemetry to monitor encoder positions.
+
+## Learn More
+
+This page introduced the practical use of encoder feedback and built-in PID control.
+
+For a deeper explanation of:
+
+- Proportional control
+- Integral control
+- Derivative control
+- PID tuning
+- Feedforward
+- Motion profiling
+
+see the [PID](/docs/autonomous/feedback-pid/pid-control) page under **Autonomous → Feedback & PID**.

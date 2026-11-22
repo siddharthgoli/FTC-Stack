@@ -1,0 +1,15 @@
+{
+    "title": "Java Fundamentals",
+    "pages": [
+        "basics",
+        "conditionals",
+        "loops",
+        "methods",
+        "arrays-lists",
+        "classes-objects",
+        "oop",
+        "enums",
+        "exceptions",
+        "style-guide"
+    ]
+}

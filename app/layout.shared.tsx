@@ -1,10 +1,14 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 export const appName = "FTC Stack";
+export const appDescription =
+    "A step-by-step guide to FTC programming, from your first lines of code to competition-ready software.";
 export const docsRoute = "/docs";
 export const docsImageRoute = "/og/docs";
 export const docsContentRoute = "/llms.mdx/docs";
 export const logoSrc = "/db-logo.png";
+export const socialImageSize = { width: 1200, height: 630 };
+export const homeSocialImage = "/og/home";
 
 export const gitConfig = {
     user: "siddharthgoli",

@@ -1,12 +1,8 @@
-import { getPageImage, getPageMarkdownUrl, source } from "@/lib/source";
+import { getPageImage, source } from "@/lib/source";
 import {
     DocsBody,
-    DocsDescription,
     DocsPage,
     DocsTitle,
-    MarkdownCopyButton,
-    ViewOptionsPopover,
-    PageFooter,
 } from "fumadocs-ui/layouts/docs/page";
 import { Feedback } from "@/components/feedback/client";
 import { type PageFeedback } from "@/components/feedback/schema";
@@ -14,7 +10,7 @@ import { notFound } from "next/navigation";
 import { getMDXComponents } from "@/components/mdx";
 import type { Metadata } from "next";
 import { createRelativeLink } from "fumadocs-ui/mdx";
-import { gitConfig } from "@/app/layout.shared";
+import { appName, socialImageSize } from "@/app/layout.shared";
 import { createClient } from "@/utils/supabase/server";
 import { Footer } from "@/components/footer";
 
@@ -84,7 +80,6 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
     if (!page) notFound();
 
     const MDX = page.data.body;
-    const markdownUrl = getPageMarkdownUrl(page).url;
 
     return (
         <>
@@ -99,18 +94,8 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
                     ),
                 }}
             >
-                <DocsTitle>{page.data.title}</DocsTitle>
-                <DocsDescription className="mb-0">
-                    {page.data.description}
-                </DocsDescription>
-                <div className="flex flex-row gap-2 items-center border-b">
-                    {/* <MarkdownCopyButton markdownUrl={markdownUrl} />
-                <ViewOptionsPopover
-          markdownUrl={markdownUrl}
-          githubUrl={`https://github.com/${gitConfig.user}/${gitConfig.repo}/blob/${gitConfig.branch}/content/docs/${page.path}`}
-        /> */}
-                </div>
-                <DocsBody>
+                <DocsTitle className="border-b border-fd-border pb-4">{page.data.title}</DocsTitle>
+                <DocsBody className="docs-body">
                     <MDX
                         components={getMDXComponents({
                             // this allows you to link to other pages with relative file paths
@@ -118,10 +103,8 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
                         })}
                     />
                 </DocsBody>
-                <div className="xl:hidden max-xl:col-start-3 max-xl:col-end-4 px-4 pt-4 md:px-6">
-                    <div className="border-t pt-4">
-                        <Feedback onSendAction={submitPageFeedback} />
-                    </div>
+                <div className="border-t border-fd-border pt-4 xl:hidden">
+                    <Feedback onSendAction={submitPageFeedback} />
                 </div>
             </DocsPage>
             <Footer className="row-start-4 col-start-3 col-end-5 xl:col-end-6" />
@@ -140,11 +123,24 @@ export async function generateMetadata(
     const page = source.getPage(params.slug);
     if (!page) notFound();
 
+    const title = page.data.seoTitle ?? page.data.title;
+    const image = getPageImage(page).url;
+
     return {
-        title: page.data.seoTitle ?? page.data.title,
+        title,
         description: page.data.description,
         openGraph: {
-            images: getPageImage(page).url,
+            title,
+            description: page.data.description,
+            siteName: appName,
+            url: page.url,
+            images: [{ url: image, ...socialImageSize, alt: `${page.data.title} · ${appName}` }],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description: page.data.description,
+            images: [image],
         },
     };
 }

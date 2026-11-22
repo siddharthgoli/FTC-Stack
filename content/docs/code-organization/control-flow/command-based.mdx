@@ -1,0 +1,82 @@
+---
+title: Command-Based Programming
+description: Learn how commands organize robot actions and subsystems.
+seoTitle: FTC Command-Based Programming
+---
+
+As robot programs grow, even state machines can become difficult to manage.
+
+Command-based programming provides a cleaner way to organize robot behavior.
+
+The main idea is:
+
+> Subsystems represent what the robot has. Commands represent what the robot does.
+
+## Subsystems
+
+Subsystems are the different parts of your robot.
+
+Examples:
+
+- Drivetrain
+- Intake
+- Shooter
+- Arm
+- Turret
+
+A subsystem contains the hardware and logic needed to control that mechanism.
+
+## Commands
+
+Commands represent actions.
+
+Examples:
+
+- Drive forward
+- Shoot a game piece
+- Move an arm
+- Intake an object
+
+Instead of manually controlling every step:
+
+```java
+if (shooting) {
+    shooter.run();
+}
+```
+
+You create reusable actions:
+
+```java
+new ShootCommand();
+```
+
+## Command Scheduling
+
+A scheduler manages which commands are currently running.
+
+This allows multiple systems to work together:
+
+```
+Drive Command
+        +
+Shooter Command
+        +
+Intake Command
+```
+
+The robot can perform complex actions without one giant loop of conditions.
+
+## FTC Libraries
+
+Several FTC libraries can help you implement command-based programming:
+
+- [FTCLib](https://github.com/FTCLib/FTCLib-Docs/blob/v2.1.0/command-base/command-system/command.md)
+- [Mercurial](https://docs.dairy.foundation/Mercurial/overview)
+- [SolversLib](https://docs.seattlesolvers.com/command-base/command-system) (FTCLib's Successor)
+- [NextFTC](https://nextftc.dev/introduction/)
+- [Ivy](https://pedropathing.com/docs/ivy) by Pedro Pathing
+
+These libraries provide tools for creating commands and organizing subsystems.
+
+Command-based programming is not a replacement for understanding control flow. It is a structure built on top of ideas like loops, states, and events.

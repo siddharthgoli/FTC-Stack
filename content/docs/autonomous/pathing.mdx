@@ -1,0 +1,234 @@
+---
+title: Pathing
+description: Learn about autonomous pathing libraries.
+seoTitle: FTC Autonomous Path Planning
+---
+
+Writing an autonomous routine by manually controlling motors quickly becomes difficult.
+
+A simple routine might look like:
+
+```text
+Drive forward
+Turn
+Drive forward
+Score
+```
+
+However, this approach has several problems:
+
+- Small errors accumulate over time.
+- Movements are difficult to tune.
+- The robot cannot easily correct itself.
+- Complex paths become hard to manage.
+
+Modern FTC robots solve this problem by using **pathing libraries**.
+
+Pathing libraries allow teams to describe where the robot should go while the library handles the complex calculations required to move there.
+
+## What is Pathing?
+
+Pathing is the process of creating and following a planned route on the field.
+
+Instead of directly controlling motor power:
+
+```java
+motor.setPower(0.5);
+```
+
+you define a desired movement:
+
+```text
+Move from starting position
+to scoring position
+while maintaining heading
+```
+
+The pathing system determines:
+
+- Motor powers
+- Velocity
+- Acceleration
+- Corrections
+- Heading adjustments
+
+This allows the robot to follow smooth, repeatable autonomous routes.
+
+## Pathing Components
+
+Most FTC pathing systems rely on several important components.
+
+### Localization
+
+The robot needs to know where it is.
+
+Pathing libraries use localization systems such as:
+
+- Dead wheel odometry
+- Motor encoders
+- IMU measurements
+
+to estimate the robot's current pose.
+
+### Motion Control
+
+The robot needs to determine how to reach the target position.
+
+This involves:
+
+- PID control
+- Feedforward
+- Motion profiling
+- Error correction
+
+These systems adjust the robot's movement while it follows a path.
+
+### Paths and Trajectories
+
+A path describes where the robot should move.
+
+A path can include:
+
+- Starting position
+- Ending position
+- Waypoints
+- Heading
+- Velocity constraints
+
+More advanced systems can create smooth curves instead of requiring the robot to stop and turn between every movement.
+
+## Road Runner
+
+Road Runner is one of the most widely used autonomous motion planning libraries in FTC. It provides a complete framework for creating accurate autonomous routines by combining:
+
+- Localization
+- Trajectory generation
+- Motion profiling
+- Feedback control
+- Path following
+
+Rather than manually controlling drivetrain power, teams define high-level goals such as moving to a specific pose on the field. Road Runner generates a trajectory that satisfies constraints like velocity, acceleration, and robot dynamics, then uses feedback control to keep the robot on that trajectory.
+
+A trajectory in Road Runner is more than just a list of points. It represents a mathematically planned motion with information about:
+
+- Position over time
+- Velocity
+- Acceleration
+- Heading
+- Constraints
+
+This allows the robot to move smoothly while accounting for acceleration limits and drivetrain characteristics.
+
+### Road Runner Strengths
+
+Road Runner is popular because of its strong mathematical foundation and extensive customization options.
+
+Key strengths include:
+
+- **Advanced trajectory generation**  
+  Road Runner creates smooth trajectories using motion profiling and spline interpolation instead of relying on simple point-to-point movement.
+
+- **Powerful localization framework**  
+  Road Runner supports many localization approaches, including encoder-based localization, dead wheel odometry, and custom localizers.
+
+- **Strong theoretical foundation**  
+  Road Runner is built around concepts from robotics and control theory, making it highly accurate when properly tuned.
+
+- **Highly customizable**  
+  Teams can tune drivetrain parameters, constraints, localization systems, and controllers to match their robot.
+
+Road Runner is commonly used by teams building highly optimized autonomous systems where accuracy and repeatability are critical.
+
+### Road Runner Resources
+
+Official resources:
+
+- https://learnroadrunner.com (Theory and explanations)
+- https://rr.brott.dev/ (Documentation)
+
+---
+
+## Pedro Pathing
+
+Pedro Pathing is a modern autonomous pathing library designed specifically for FTC. It focuses on making advanced autonomous motion accessible while still providing powerful path following capabilities.
+
+Pedro Pathing uses concepts such as:
+
+- Bézier curves
+- Path chains
+- Localization
+- PIDF control
+- Error correction
+- Heading interpolation
+
+Instead of creating isolated movements, teams build paths consisting of curves and movements that the robot follows using Pedro's follower system.
+
+A Pedro Pathing path can define:
+
+- The route the robot should travel
+- The robot's heading throughout the movement
+- Velocity constraints
+- Movement behavior
+
+The follower continuously compares the robot's current position to the desired path and adjusts drivetrain output to correct errors.
+
+### Pedro Pathing Strengths
+
+Pedro Pathing focuses on providing a smooth development experience while maintaining advanced autonomous capabilities.
+
+Key strengths include:
+
+- **FTC-focused design**  
+  Pedro Pathing was created specifically around common FTC use cases, making it easy to integrate into FTC codebases.
+
+- **Smooth path creation**  
+  Bézier curves and path chains allow teams to create complex autonomous routes without manually calculating individual movements.
+
+- **Visualization tools**  
+  Pedro Pathing includes tools that make designing and debugging paths easier.
+
+- **Flexible control system**  
+  The follower system provides configurable control methods for position, heading, and movement behavior.
+
+Pedro Pathing is widely used by FTC teams that want a powerful but approachable system for building complex autonomous routines.
+
+### Pedro Pathing Resources
+
+Official resource:
+
+- https://pedropathing.com
+
+---
+
+## Road Runner vs Pedro Pathing
+
+Road Runner and Pedro Pathing are both powerful autonomous frameworks capable of producing highly accurate and competitive autonomous routines.
+
+However, they were created with different design philosophies. Road Runner was one of the first major FTC motion planning libraries and became widely adopted because it introduced many teams to advanced concepts such as trajectory generation, motion profiling, and localization.
+
+Over time, the FTC community's needs changed. Modern robots became more complex, autonomous routines became longer, and teams wanted tools that made creating and debugging paths easier. Pedro Pathing was developed with many of these lessons in mind, providing a more modern workflow while maintaining advanced path following capabilities.
+
+This does not mean Road Runner is obsolete. Many successful FTC teams still use it, and its mathematical foundation remains extremely strong. However, for teams starting a new project today, Pedro Pathing is often a more approachable and modern choice.
+
+|                     | Road Runner                                                 | Pedro Pathing                                           |
+| ------------------- | ----------------------------------------------------------- | ------------------------------------------------------- |
+| Core idea           | Trajectory generation and motion planning                   | Modern path following and motion control                |
+| History             | One of the foundational FTC autonomous libraries            | Newer library designed around modern FTC workflows      |
+| Path representation | Trajectories with constraints                               | Paths and path chains using curves                      |
+| Motion planning     | Advanced trajectory generation and motion profiling         | Advanced path following with flexible path construction |
+| Localization        | Extensive localization framework                            | Integrated localization support                         |
+| Control             | Trajectory-based feedback control                           | Follower-based feedback control                         |
+| Visualization       | Strong trajectory visualization                             | Strong path visualization and debugging tools           |
+| Customization       | Extremely customizable                                      | Highly customizable with a streamlined workflow         |
+| Learning curve      | Higher due to deeper robotics concepts                      | Often easier for teams to get started                   |
+| Best fit            | Teams wanting maximum control and a battle-tested ecosystem | Teams building new robots and wanting a modern workflow |
+
+Both libraries are capable of creating elite autonomous routines when properly tuned. Road Runner remains an excellent choice for teams with existing experience or codebases built around it. However, for teams starting from scratch, Pedro Pathing is often recommended because it provides a more modern development experience while still offering the advanced features needed for competitive FTC.
+
+Ultimately, the library matters less than understanding the underlying concepts: localization, control theory, motion planning, and careful tuning.
+
+## What's Next?
+
+Pathing libraries combine localization, control theory, and motion planning to create accurate autonomous routines.
+
+Review [feedback and PID](/docs/autonomous/feedback-pid/pid-control) to understand how a follower corrects error, or use the [Code Structure guide](/docs/code-organization/code-structure) to fit your autonomous routines into a maintainable robot project.

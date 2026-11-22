@@ -1,0 +1,99 @@
+---
+title: State Machines
+description: Learn how state machines organize complex robot behavior.
+seoTitle: FTC State Machines
+---
+
+A state machine is a way to organize a program by dividing behavior into different states.
+
+Instead of writing one long sequence of instructions, the robot is always in a specific state and decides when to transition.
+
+For example:
+
+```java
+enum State {
+    INTAKING,
+    DRIVING,
+    SHOOTING,
+    PARKED
+}
+```
+
+The robot might follow this flow:
+
+```
+DRIVING
+   ↓
+Target found
+   ↓
+SHOOTING
+   ↓
+Finished scoring
+   ↓
+PARKED
+```
+
+## Why Use State Machines?
+
+State machines solve many problems with sequential code.
+
+They allow robots to:
+
+- Pause and resume actions
+- React to sensors
+- Handle unexpected situations
+- Manage complex autonomous routines
+
+Instead of:
+
+```java
+drive();
+shoot();
+park();
+```
+
+You can think:
+
+```
+If driving is complete:
+    switch to shooting
+
+If shooting is complete:
+    switch to parking
+```
+
+## FTC Examples
+
+State machines are commonly used for:
+
+### Autonomous routines
+
+```
+START
+ ↓
+MOVE_TO_GOAL
+ ↓
+SCORE
+ ↓
+PARK
+```
+
+### Mechanisms
+
+```
+IDLE
+ ↓
+INTAKE_ACTIVE
+ ↓
+GAME_PIECE_DETECTED
+ ↓
+READY_TO_SCORE
+```
+
+## State Machine Libraries
+
+While you can build a state machine yourself using enums and `switch` statements, many teams choose to use a library that simplifies the process.
+
+One popular option is [StateFactory](https://state-factory.gitbook.io/state-factory), which provides a structured way to define states and transitions without writing all of the boilerplate yourself.
+
+State machines are one of the first major steps toward writing scalable robot software.

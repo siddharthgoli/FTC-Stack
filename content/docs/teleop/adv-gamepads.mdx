@@ -1,0 +1,73 @@
+---
+title: Advanced Gamepad Usage
+description: Learn how to build responsive controls using edge detection, toggles, and other advanced input techniques.
+seoTitle: Advanced FTC Gamepad Programming
+---
+
+Reading whether a button is currently pressed is enough for simple robots.
+
+However, competitive FTC robots often need more advanced input handling.
+
+For example:
+
+- Press once to start the intake.
+- Press again to stop it.
+- Trigger an action only once.
+- Detect when a button is released.
+
+These behaviors require more than checking `gamepad.a`.
+
+## Continuous Input
+
+The simplest input is checking whether a button is currently held.
+
+```java
+if (gamepad1.a) {
+    intake.start();
+}
+```
+
+This code runs every loop while the button is held.
+
+## Rising Edge
+
+A **rising edge** occurs once when a button changes from **not pressed** to **pressed**.
+
+```java
+if (gamepad1.aWasPressed()) {
+    intake.start();
+}
+```
+
+## Falling Edge
+
+A **falling edge** occurs once when a button changes from **pressed** to **not pressed**.
+
+```java
+if (gamepad1.aWasReleased()) {
+    intake.start();
+}
+```
+
+## Toggles
+
+A toggle changes between two states every time a button is pressed.
+
+```java
+if (gamepad1.a && !previousA) {
+    claw.toggle();
+}
+
+previousA = gamepad1.a;
+```
+
+## Best Practices
+
+- Avoid assigning multiple actions to the same button.
+- Keep frequently used controls within easy reach.
+- Use toggles for mechanisms that stay active.
+- Use held buttons for manual control.
+
+## What's Next?
+
+Now that you know how to build responsive TeleOp controls, you're ready to begin [building autonomous routines](/docs/autonomous).
