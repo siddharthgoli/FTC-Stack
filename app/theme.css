@@ -1,0 +1,40 @@
+/* Light palette with slate surfaces and accents. */
+:root {
+    --color-fd-background: hsl(215, 32%, 94%);
+    --color-fd-foreground: hsl(221, 54%, 12%);
+    --color-fd-muted: hsl(215, 29%, 88%);
+    --color-fd-muted-foreground: hsl(218, 22%, 34%);
+    --color-fd-popover: hsl(215, 34%, 97%);
+    --color-fd-popover-foreground: hsl(221, 54%, 12%);
+    --color-fd-card: hsl(215, 32%, 91%);
+    --color-fd-card-foreground: hsl(221, 54%, 12%);
+    --color-fd-border: hsl(221 42% 28% / 0.16);
+    --color-fd-primary: hsl(217, 25%, 32%);
+    --color-fd-primary-foreground: hsl(215, 30%, 98%);
+    --color-fd-secondary: hsl(215, 29%, 87%);
+    --color-fd-secondary-foreground: hsl(221, 54%, 12%);
+    --color-fd-accent: hsl(215, 25%, 82%);
+    --color-fd-accent-foreground: hsl(221, 54%, 12%);
+    --color-fd-ring: hsl(217, 25%, 44%);
+    --fd-primary-hover: color-mix(in srgb, var(--color-fd-primary) 85%, black);
+}
+
+/* Dark palette with navy surfaces and slate accents. */
+.dark {
+    --color-fd-background: hsl(221, 54%, 9%); /* Deep Midnight Navy */
+    --color-fd-foreground: hsl(38, 33%, 97%); /* Crisp Warm Cream Text */
+    --color-fd-muted: hsl(221, 47%, 14%); /* Muted Dark Surface */
+    --color-fd-muted-foreground: hsl(218, 22%, 63%); /* Slate Subtext */
+    --color-fd-popover: hsl(221, 46%, 12%); /* Dark Popover Canvas */
+    --color-fd-popover-foreground: hsl(38, 33%, 97%);
+    --color-fd-card: hsl(221, 45%, 16%); /* Dark Navy Cards & Code Surface */
+    --color-fd-card-foreground: hsl(38, 33%, 97%);
+    --color-fd-border: hsl(38 62% 87% / 0.12); /* Soft Warm Cream Border */
+    --color-fd-primary: hsl(218, 24%, 72%);
+    --color-fd-primary-foreground: hsl(221, 54%, 9%);
+    --color-fd-secondary: hsl(220, 45%, 20%); /* Dark Secondary Buttons */
+    --color-fd-secondary-foreground: hsl(38, 33%, 97%);
+    --color-fd-accent: hsl(221, 46%, 12%);
+    --color-fd-accent-foreground: hsl(38, 33%, 97%);
+    --color-fd-ring: hsl(218, 24%, 70%);
+}

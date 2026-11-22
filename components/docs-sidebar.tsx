@@ -32,7 +32,7 @@ function SidebarPage({ item }: { item: Item }) {
         <Link
             href={item.url}
             aria-current={active ? "page" : undefined}
-            className="flex min-h-11 items-center rounded-lg p-2 text-fd-muted-foreground hover:bg-fd-accent/50 hover:text-fd-accent-foreground/80 active:bg-fd-accent aria-[current=page]:bg-fd-primary/10 aria-[current=page]:text-fd-primary md:min-h-0"
+            className="flex min-h-11 items-center rounded-lg p-2 text-fd-muted-foreground hover:bg-fd-accent/50 hover:text-fd-accent-foreground/80 active:bg-fd-accent aria-[current=page]:bg-fd-accent aria-[current=page]:text-fd-primary md:min-h-0"
             onNavigate={() => {
                 if (mode === "drawer") setOpen(false);
             }}
@@ -68,7 +68,7 @@ function SidebarFolder({ item, children }: { item: Folder; children: ReactNode }
         <Collapsible open={open} onOpenChange={setOpen}>
             <div
                 data-active={active}
-                className="flex items-stretch rounded-lg text-fd-muted-foreground transition-colors hover:bg-fd-accent/50 hover:text-fd-accent-foreground/80 active:bg-fd-accent data-[active=true]:bg-fd-primary/10 data-[active=true]:text-fd-primary"
+                className="flex items-stretch rounded-lg text-fd-muted-foreground transition-colors hover:bg-fd-accent/50 hover:text-fd-accent-foreground/80 active:bg-fd-accent data-[active=true]:bg-fd-accent data-[active=true]:text-fd-primary"
             >
                 {item.index && (
                     <Link

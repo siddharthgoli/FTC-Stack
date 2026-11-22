@@ -35,6 +35,15 @@
 
 .homeContent {
     container: homepage / inline-size;
+    --home-section-gap: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.heroGrid {
+    gap: var(--home-section-gap);
+}
+
+.homeGuides {
+    margin-block-start: var(--home-section-gap);
 }
 
 .heroCopy {
@@ -43,6 +52,8 @@
     max-width: 42rem;
     margin-inline: auto;
     text-align: center;
+    display: grid;
+    gap: clamp(1rem, 2.5cqi, 1.5rem);
 }
 
 .heroTitle {
@@ -69,6 +80,7 @@
 
     .homeGuides {
         max-width: none;
+        margin-block-start: clamp(1.25rem, 3dvh, 2.25rem);
     }
 }
 
@@ -86,5 +98,41 @@
 @media (min-width: 64rem) and (max-height: 58rem) {
     .homeGuides {
         --guide-inset: 1rem;
+    }
+}
+
+@media (min-width: 80rem) and (min-height: 58rem) {
+    .homeContent {
+        max-width: 87.5rem;
+    }
+
+    .heroTitle {
+        font-size: clamp(3.5rem, 13cqi, 5rem);
+    }
+
+    .heroDescription {
+        max-width: 34rem;
+        font-size: 1.375rem;
+        text-wrap: pretty;
+    }
+
+    .curriculumCard {
+        padding: 1.25rem;
+    }
+
+    .curriculumTitle,
+    .curriculumDescription,
+    .referenceCard,
+    .homeGuides :is(a, button) {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .referenceCard {
+        padding-inline: 1.25rem;
+    }
+
+    .homeGuides {
+        --guide-inset: 1.75rem;
     }
 }

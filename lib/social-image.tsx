@@ -52,7 +52,7 @@ export async function renderSocialImage({
 
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1 }}>
                 {section && (
-                    <div style={{ display: "flex", marginBottom: 16, color: "#00d0ff", fontSize: 26, letterSpacing: 4, fontWeight: 700 }}>
+                    <div style={{ display: "flex", marginBottom: 16, color: "#a6b5c9", fontSize: 26, letterSpacing: 4, fontWeight: 700 }}>
                         {section.toUpperCase()}
                     </div>
                 )}
@@ -67,7 +67,7 @@ export async function renderSocialImage({
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: 16, color: "#b3c1d7", fontSize: 22 }}>
-                <span style={{ width: 48, height: 3, backgroundColor: "#00d0ff" }} />
+                <span style={{ width: 48, height: 3, backgroundColor: "#a6b5c9" }} />
                 ftcstack.com
             </div>
         </div>,

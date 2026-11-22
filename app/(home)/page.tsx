@@ -44,7 +44,7 @@ export default async function HomePage() {
     return (
         <div className="lg:flex lg:flex-1">
             <div className={`${styles.homeContent} mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 md:px-10 lg:flex lg:flex-col lg:justify-center lg:px-12 lg:py-[clamp(0.75rem,calc((100dvh_-_54rem)/7),3rem)]`}>
-                <div className={`${styles.heroGrid} grid items-center gap-8 sm:gap-10`}>
+                <div className={`${styles.heroGrid} grid items-center`}>
                     <section aria-labelledby="home-title" className={styles.heroCopy}>
                         <h1
                             id="home-title"
@@ -52,10 +52,10 @@ export default async function HomePage() {
                         >
                             Your foundation for FTC software.
                         </h1>
-                        <p className={`${styles.heroDescription} mt-5 max-w-md text-lg leading-relaxed text-fd-muted-foreground md:mt-7 md:text-xl`}>
+                        <p className={`${styles.heroDescription} max-w-md text-lg leading-relaxed text-fd-muted-foreground md:text-xl`}>
                             {appDescription}
                         </p>
-                        <p className="mt-5 text-base font-normal leading-relaxed text-fd-foreground md:mt-6">
+                        <p className="text-base font-normal leading-relaxed text-fd-foreground">
                             Created by Siddharth Goli{" "}
                             <span className="text-fd-primary">•</span>{" "}
                             14481 Don&apos;t Blink
@@ -68,17 +68,17 @@ export default async function HomePage() {
                                 <li key={href}>
                                     <Link
                                         href={href}
-                                        className={`${styles.curriculumCard} group block h-full bg-fd-secondary transition-colors hover:bg-fd-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring`}
+                                        className={`${styles.curriculumCard} group block h-full bg-fd-secondary transition-colors hover:bg-fd-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring`}
                                     >
-                                        <span className="flex items-center justify-between gap-3 text-sm font-semibold">
+                                        <span className={`${styles.curriculumTitle} flex items-center justify-between gap-3 text-sm font-semibold`}>
                                             {title}
                                             <ArrowRightIcon aria-hidden="true" className="size-4 shrink-0 text-fd-muted-foreground group-hover:text-fd-primary" />
                                         </span>
-                                        <span className="mt-1 block text-sm leading-5 text-fd-muted-foreground">{description}</span>
+                                        <span className={`${styles.curriculumDescription} mt-1 block text-sm leading-5 text-fd-muted-foreground`}>{description}</span>
                                     </Link>
                                 </li>
                             ))}
-                            <li className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl bg-fd-secondary px-4 py-2.5 text-sm sm:col-span-2">
+                            <li className={`${styles.referenceCard} flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl bg-fd-secondary px-4 py-2.5 text-sm sm:col-span-2`}>
                                 <span className="font-semibold">Reference</span>
                                 <Link href="/docs/reference/libraries" className="text-fd-muted-foreground underline-offset-4 hover:underline">
                                     Libraries
@@ -91,7 +91,7 @@ export default async function HomePage() {
                     </nav>
                 </div>
 
-                <GuidePicker {...guides} className={`${styles.homeGuides} mx-auto mt-8 w-full max-w-3xl sm:mt-10 lg:mt-[clamp(0.75rem,calc((100dvh_-_52rem)/5),3.5rem)]`} />
+                <GuidePicker {...guides} className={`${styles.homeGuides} mx-auto w-full max-w-3xl`} />
             </div>
         </div>
     );
