@@ -36,6 +36,10 @@
 .homeContent {
     container: homepage / inline-size;
     --home-section-gap: clamp(1.5rem, 4vw, 2.25rem);
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 2.5rem 1rem;
 }
 
 .heroGrid {
@@ -43,7 +47,12 @@
 }
 
 .homeGuides {
+    --enter-step: 10;
     margin-block-start: var(--home-section-gap);
+}
+
+.homeCards {
+    --enter-offset: 3;
 }
 
 .heroCopy {
@@ -65,6 +74,10 @@
 }
 
 @container homepage (min-width: 64rem) {
+    .homeCards {
+        --enter-offset: 0;
+    }
+
     .heroGrid {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
         gap: 3.5rem;
@@ -79,6 +92,7 @@
     }
 
     .homeGuides {
+        --enter-step: 7;
         max-width: none;
         margin-block-start: clamp(1.25rem, 3dvh, 2.25rem);
     }
@@ -89,7 +103,27 @@
     border-radius: var(--radius-2xl);
 }
 
+@media (min-width: 40rem) {
+    .homeContent {
+        padding-inline: 1.5rem;
+    }
+}
+
+@media (min-width: 48rem) {
+    .homeContent {
+        padding-inline: 2.5rem;
+    }
+}
+
 @media (min-width: 64rem) {
+    .homeContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-inline: 3rem;
+        padding-block: clamp(0.75rem, (100dvh - 54rem) / 7, 3rem);
+    }
+
     .curriculumCard {
         padding: clamp(0.625rem, 1.4dvh, 1rem);
     }
@@ -123,7 +157,7 @@
     .curriculumTitle,
     .curriculumDescription,
     .referenceCard,
-    .homeGuides :is(a, button) {
+    .homeGuides :is([data-guide-row], [data-guide-shuffle]) {
         font-size: 1rem;
         line-height: 1.5;
     }

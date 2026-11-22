@@ -4,7 +4,7 @@ import "./theme.css";
 import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Metadata } from "next";
-import { appDescription, appName, homeSocialImage, logoSrc, socialImageSize } from "@/app/layout.shared";
+import { appDescription, appName, homeSocialImage, logoSrc, siteUrl, socialImageSize } from "@/app/layout.shared";
 import Script from "next/script";
 
 const plexSans = IBM_Plex_Sans({
@@ -20,7 +20,7 @@ const jetbrainsMono = JetBrains_Mono({
 const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
-    metadataBase: new URL("https://www.ftcstack.com"),
+    metadataBase: new URL(siteUrl),
     title: appName,
     description: appDescription,
     icons: {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: appName,
         description: appDescription,
-        url: "https://www.ftcstack.com",
+        url: siteUrl,
         siteName: appName,
         type: "website",
         images: [{ url: homeSocialImage, ...socialImageSize, alt: appName }],

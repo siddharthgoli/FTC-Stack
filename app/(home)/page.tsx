@@ -4,6 +4,7 @@ import { appDescription } from "@/app/layout.shared";
 import { GuidePicker } from "@/components/guide-picker";
 import { getGuideRecommendations } from "@/lib/source";
 import styles from "../landing.module.css";
+import motion from "../page-motion.module.css";
 
 const sections = [
     {
@@ -43,9 +44,9 @@ export default async function HomePage() {
 
     return (
         <div className="lg:flex lg:flex-1">
-            <div className={`${styles.homeContent} mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 md:px-10 lg:flex lg:flex-col lg:justify-center lg:px-12 lg:py-[clamp(0.75rem,calc((100dvh_-_54rem)/7),3rem)]`}>
+            <div className={styles.homeContent}>
                 <div className={`${styles.heroGrid} grid items-center`}>
-                    <section aria-labelledby="home-title" className={styles.heroCopy}>
+                    <section aria-labelledby="home-title" className={`${styles.heroCopy} ${motion.stagger}`}>
                         <h1
                             id="home-title"
                             className={`${styles.heroTitle} font-semibold leading-[1.04] tracking-[-0.05em] text-balance`}
@@ -63,7 +64,7 @@ export default async function HomePage() {
                     </section>
 
                     <nav aria-label="Documentation" className="mx-auto w-full max-w-3xl">
-                        <ul className="grid gap-3 sm:grid-cols-2">
+                        <ul className={`${motion.stagger} ${styles.homeCards} grid gap-3 sm:grid-cols-2`}>
                             {sections.map(({ title, description, href }) => (
                                 <li key={href}>
                                     <Link
@@ -90,8 +91,7 @@ export default async function HomePage() {
                         </ul>
                     </nav>
                 </div>
-
-                <GuidePicker {...guides} className={`${styles.homeGuides} mx-auto w-full max-w-3xl`} />
+                <GuidePicker {...guides} className={`${styles.homeGuides} ${motion.enter} mx-auto w-full max-w-3xl`} />
             </div>
         </div>
     );

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { GuidePicker } from "@/components/guide-picker";
 import { getGuideRecommendations } from "@/lib/source";
 import styles from "./landing.module.css";
+import motion from "./page-motion.module.css";
 
 export default async function NotFound() {
     const guides = await getGuideRecommendations();
@@ -10,7 +11,7 @@ export default async function NotFound() {
     return (
         <main className={`${styles.backdrop} relative isolate min-h-dvh overflow-hidden`}>
             <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 md:px-10 md:py-16 lg:px-12">
-                <section aria-labelledby="not-found-title" className="mx-auto max-w-xl text-center">
+                <section aria-labelledby="not-found-title" className={`${motion.stagger} mx-auto max-w-xl text-center`}>
                     <h1 id="not-found-title" className="font-semibold tracking-tight">
                         <span className="block text-8xl leading-none tracking-[-0.07em] text-fd-primary sm:text-[10rem]">
                             404
@@ -28,7 +29,7 @@ export default async function NotFound() {
                         Back to home
                     </Link>
                 </section>
-                <GuidePicker {...guides} className="mt-8 sm:mt-10 lg:mt-12" />
+                <GuidePicker {...guides} className={`${motion.enter} ${motion.errorGuide} mt-8 sm:mt-10 lg:mt-12`} />
             </div>
         </main>
     );

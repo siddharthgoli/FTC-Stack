@@ -1,6 +1,7 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 export const appName = "FTC Stack";
+export const siteUrl = "https://www.ftcstack.com";
 export const appDescription =
     "A step-by-step guide to FTC programming, from your first lines of code to competition-ready software.";
 export const docsRoute = "/docs";

@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "@/app/layout.shared";
 import { source } from "@/lib/source";
-
-const siteUrl = "https://www.ftcstack.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const urls = new Set<string>([`${siteUrl}/`]);

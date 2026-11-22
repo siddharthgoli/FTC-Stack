@@ -1,3 +1,4 @@
+import motion from "@/app/page-motion.module.css";
 import { getPageImage, source } from "@/lib/source";
 import {
     DocsBody,
@@ -84,6 +85,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
     return (
         <>
             <DocsPage
+                className={motion.stagger}
                 toc={page.data.toc}
                 full={page.data.full}
                 tableOfContent={{

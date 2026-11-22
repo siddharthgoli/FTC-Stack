@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-
-const siteUrl = "https://www.ftcstack.com";
+import { siteUrl } from "@/app/layout.shared";
 
 export default function robots(): MetadataRoute.Robots {
     return {

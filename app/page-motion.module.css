@@ -1,0 +1,32 @@
+.enter,
+.stagger > * {
+    animation: rise-in 420ms cubic-bezier(0.2, 0.7, 0.25, 1) backwards;
+    animation-delay: calc((var(--enter-step, 0) + var(--enter-offset, 0)) * 55ms);
+}
+
+.stagger > :nth-child(2) { --enter-step: 1; }
+.stagger > :nth-child(3) { --enter-step: 2; }
+.stagger > :nth-child(4) { --enter-step: 3; }
+.stagger > :nth-child(5) { --enter-step: 4; }
+.stagger > :nth-child(6) { --enter-step: 5; }
+.stagger > :nth-child(7) { --enter-step: 6; }
+
+.errorGuide { --enter-step: 3; }
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 2rem;
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .enter,
+    .stagger > * {
+        animation: none;
+    }
+}
